@@ -1,21 +1,11 @@
 import './style.css'
-import typescriptLogo from './assets/typescript.svg'
-import viteLogo from './assets/vite.svg'
-import Counter from './components/Counter'
-
+import Calender from './components/Calender'
+import Topbar from './components/topbar'
 export default function App() {
   return (
     <div>
-      <header>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://www.typescriptlang.org/" target="_blank">
-          <img src={typescriptLogo} className="logo vanilla" alt="TypeScript logo" />
-        </a>
-      </header>
-      <h1>Google Calendar Clone</h1>
-      <Counter />
+      <Topbar />
+      <div style={{width: '500px'}}><Calender /></div>
     </div>
   )
 }
