@@ -1,0 +1,62 @@
+.calendar {
+  display: flex;
+  height: 100vh;
+  font-family: sans-serif;
+}
+
+.calendar-left {
+  width: 80px;
+  border-right: 1px solid #dde3ea;
+  font-size: 12px;
+  color: #444746;
+}
+
+.calendar-left p {
+  height: 60px; /* 1 saat = 60px */
+  margin: 0;
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-start;
+  padding-right: 6px;
+}
+
+.calendar-right {
+  flex: 1;
+  position: relative;
+  background: repeating-linear-gradient(
+    to bottom,
+    #fff,
+    #fff 59px,
+    #dde3eb 60px
+  );
+  display: grid;
+  grid-template-rows: repeat(24, 1fr); /* 24 saat, esnek yükseklik */
+  height: 100%; /* viewport yüksekliğine uyumlu */
+}
+
+
+.grid-container {
+  display: grid;
+  grid-template-rows: repeat(25, 60px); /* her saat 60px */
+  position: relative;
+}
+
+.current-time-line {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: red;
+  top: 540px; /* Örnek: 9:00 am */
+}
+
+.event {
+  background: #039be5;
+  border-left: 8px solid #039be5;
+  border-radius: 4px;
+  padding: 4px;
+  font-size: 12px;
+  color: white;
+  display: flex;
+  align-items: center;
+}

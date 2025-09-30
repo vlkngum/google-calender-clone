@@ -39,6 +39,9 @@
   }
 
   .today-btn{
+    display: flex;
+    align-items: center;
+    gap: 6px;
     font-size: 14px;
     padding: 10px 22px;
     border: 1px solid #7a7d7b;
@@ -52,6 +55,11 @@
 
   .today-btn:hover{
     background-color: #e6e7eb
+  }
+
+  .chevrondown{
+    width: 14px;
+    height: 14px;
   }
 
   .center-left {

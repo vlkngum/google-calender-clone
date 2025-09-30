@@ -20,13 +20,13 @@ export default function Topbar() {
         <ChevronLeft className="chevron-left" />
       <ChevronRight className="chevron-right" />
     <span className="date">Sep - Oct 2025</span>
-    <ChevronDown />
+
         </div>
       
       </div>
 
       <div className="right">
-      <button className="today-btn">Day</button>
+      <button className="today-btn">Day <ChevronDown className="chevrondown"/></button>
       </div>
     </div>
   );
