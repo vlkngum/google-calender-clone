@@ -2,6 +2,7 @@
   display: flex;
   height: 100vh;
   font-family: sans-serif;
+  overflow-y: auto;
 }
 
 .calendar-left {
@@ -9,10 +10,11 @@
   border-right: 1px solid #dde3ea;
   font-size: 12px;
   color: #444746;
+  min-height: 1500px;
 }
 
 .calendar-left p {
-  height: 60px; /* 1 saat = 60px */
+  height: 60px;
   margin: 0;
   display: flex;
   justify-content: flex-end;
@@ -23,22 +25,20 @@
 .calendar-right {
   flex: 1;
   position: relative;
+}
+
+.grid-container {
+  display: grid;
+  grid-template-rows: repeat(25, 60px);
+  position: relative;
   background: repeating-linear-gradient(
     to bottom,
     #fff,
     #fff 59px,
+    #dde3eb 59px,
     #dde3eb 60px
   );
-  display: grid;
-  grid-template-rows: repeat(24, 1fr); /* 24 saat, esnek yükseklik */
-  height: 100%; /* viewport yüksekliğine uyumlu */
-}
-
-
-.grid-container {
-  display: grid;
-  grid-template-rows: repeat(25, 60px); /* her saat 60px */
-  position: relative;
+  min-height: 1500px;
 }
 
 .current-time-line {
@@ -47,7 +47,8 @@
   right: 0;
   height: 2px;
   background: red;
-  top: 540px; /* Örnek: 9:00 am */
+  top: 540px;
+  z-index: 10;
 }
 
 .event {
