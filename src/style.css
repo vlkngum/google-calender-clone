@@ -1,27 +1,13 @@
 body {
   font-family: sans-serif;
-  text-align: center;
   margin: 0;
-
+  padding: 0;
   user-select: none;
+  overflow: hidden;
 }
 
-.logo {
-  height: 6rem;
-  padding: 1rem;
-}
-
-.logo.vanilla {
-  filter: grayscale(100%);
-}
-
-.card {
-  margin-top: 2rem;
-}
-
-button {
-  padding: 0.5rem 1rem;
-  font-size: 1rem;
+* {
+  box-sizing: border-box;
 }
 
 body::-webkit-scrollbar {
@@ -30,25 +16,29 @@ body::-webkit-scrollbar {
 
 .app-container {
   display: flex;
-  flex-direction: column; 
-  min-height: 100vh;
+  flex-direction: column;
+  height: 100vh;
+  overflow: hidden;
 }
 
 .content {
   display: flex;
   flex-direction: row;
-  width: 100%;
+  flex: 1;
+  overflow: hidden;
 }
 
 .sidebar {
-  width: 30%;
+  width: 300px;
+  min-width: 300px;
   background: #f7f8fa;
   border-right: 1px solid #ddd;
-  overflow-y: auto;
+  overflow-y: hidden;
 }
 
 .main {
- width: 70%;
-  background: #fff;
-  overflow-y: auto;
+  flex: 1;
+  background: #b8b4b4;
+  overflow-y: hidden;
+  overflow-x: hidden;
 }
