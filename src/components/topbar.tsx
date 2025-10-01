@@ -1,17 +1,34 @@
+import { useState, useRef, useEffect } from 'react';
 import '../css/Topbar.css';
-import { Menu } from 'lucide-react';
+import { Menu, ChevronLeft, ChevronRight, ChevronDown } from 'lucide-react';
 import calendarLogo from '../assets/calendar_30_2x.png';
-import { ChevronLeft } from 'lucide-react';
-import { ChevronRight } from 'lucide-react';
-import { ChevronDown } from 'lucide-react';
-
 import { useDateContext } from '../context/DateContext';
+import { usePreferences } from '../context/PreferencesContext';
 
-const monthNames = ['Oca', 'Şub', 'Mar', 'Nis', 'May', 'Haz', 'Tem', 'Ağu', 'Eyl', 'Eki', 'Kas', 'Ara'];
+const monthNames = ['Ocak', 'Şubat', 'Mart', 'Nisan', 'Mayıs', 'Haziran', 'Temmuz', 'Ağustos', 'Eylül', 'Ekim', 'Kasım', 'Aralık'];
+const viewOptions = ['Gün', 'Hafta', 'Ay', 'Yıl', 'Planlama'];
 
 export default function Topbar() {
-
   const { currentMonth, currentYear, selectedDay, setCurrentMonth, setCurrentYear, setSelectedDay } = useDateContext();
+  const { calendarType, setCalendarType } = usePreferences();
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+
+  const toggleSidebar = () => {
+    setIsSidebarOpen(!isSidebarOpen);
+  }
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setIsDropdownOpen(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
 
   const prevDay = () => {
     if (selectedDay === 1) { 
@@ -43,9 +60,6 @@ export default function Topbar() {
   }
 
   const currentMonthName = monthNames[currentMonth];
-  const nextMonth = currentMonth === 11 ? 0 : currentMonth + 1;
-  const nextMonthYear = currentMonth === 11 ? currentYear + 1 : currentYear;
-  const nextMonthName = monthNames[nextMonth];
 
   const goToToday = () => {
     const today = new Date();
@@ -54,25 +68,54 @@ export default function Topbar() {
     setSelectedDay(today.getDate());
   }
 
+  const handleViewChange = (index: number) => {
+    setCalendarType(index);
+    setIsDropdownOpen(false);
+  }
+
   return (
     <div className="topbar">
       <div className="left">
-        <Menu className="icon" size={20} />
+        <Menu className="icon" size={20} onClick={toggleSidebar} style={{ cursor: 'pointer' }} />
         <img src={calendarLogo} className="logo" alt="Vite logo" />
         <span className="left-title">Takvim</span>
-        <button className="today-btn" onClick={goToToday}>Bugün</button>
-      </div>
+        
 
-      <div className="center">
-        <div className="center-left">
-          <ChevronLeft className="icon"  size={17} onClick={prevDay}/>
-          <ChevronRight className="icon" size={17}  onClick={nextDay}/>
-          <span className="date">{currentMonthName} - {nextMonthName} {nextMonthYear}</span> 
+        <div className="tb-center">
+          <div className="tb-center-left">
+            <button className="topbar-btn" onClick={goToToday}>Bugün</button>
+            <ChevronLeft className="icon" size={20} onClick={prevDay}/>
+            <ChevronRight className="icon" size={20} onClick={nextDay}/>
+            <span className="tb-date">{selectedDay} {currentMonthName} {currentYear}</span> 
+          </div>
         </div>
       </div>
 
+      
+
       <div className="right">
-        <button className="today-btn">Gün <ChevronDown className="chevrondown"/></button>
+        <div className="dropdown-container" ref={dropdownRef}>
+          <button 
+            className="topbar-btn" 
+            onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+          >
+            {viewOptions[calendarType]} <ChevronDown className="chevrondown"/>
+          </button>
+          
+          {isDropdownOpen && (
+            <div className="dropdown-menu">
+              {viewOptions.map((option, index) => (
+                <div
+                  key={index}
+                  className={`dropdown-item ${calendarType === index ? 'active' : ''}`}
+                  onClick={() => handleViewChange(index)}
+                >
+                  {option}
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );
