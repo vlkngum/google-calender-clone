@@ -1,4 +1,4 @@
-import Calendar from "./Calendar";
+import Calendar from "./ui/Calendar";
 import { Plus } from "lucide-react";
 import '../css/sidebar.css';
 

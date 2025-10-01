@@ -1,29 +1,26 @@
-body {
-  font-family: sans-serif;
-  text-align: center;
-  margin: 0;
 
-  user-select: none;
+
+.app-container {
+  display: flex;
+  flex-direction: column; 
+  min-height: 100vh;
 }
 
-.logo {
-  height: 6rem;
-  padding: 1rem;
+.content {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
 }
 
-.logo.vanilla {
-  filter: grayscale(100%);
+.sidebar {
+  width: 30%;
+  background: #f7f8fa;
+  border-right: 1px solid #ddd;
+  overflow-y: auto;
 }
 
-.card {
-  margin-top: 2rem;
-}
-
-button {
-  padding: 0.5rem 1rem;
-  font-size: 1rem;
-}
-
-body::-webkit-scrollbar {
-  display: none;
+.main {
+ width: 70%;
+  background: #fff;
+  overflow-y: auto;
 }

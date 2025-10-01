@@ -1,6 +1,6 @@
 import { ChevronRight, ChevronLeft } from 'lucide-react';
-import '../css/calender.css';
-import { useDateContext } from '../context/DateContext';
+import '../../css/calender.css';
+import { useDateContext } from '../../context/DateContext';
 
 const monthNames = ['Ocak', 'Şubat', 'Mart', 'Nisan', 'Mayıs', 'Haziran', 'Temmuz', 'Ağustos', 'Eylül', 'Ekim', 'Kasım', 'Aralık'];
 const dayNames = ['P', 'S', 'Ç', 'P', 'C', 'C', 'P'];
