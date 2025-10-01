@@ -1,4 +1,32 @@
+body {
+  font-family: sans-serif;
+  text-align: center;
+  margin: 0;
 
+  user-select: none;
+}
+
+.logo {
+  height: 6rem;
+  padding: 1rem;
+}
+
+.logo.vanilla {
+  filter: grayscale(100%);
+}
+
+.card {
+  margin-top: 2rem;
+}
+
+button {
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+}
+
+body::-webkit-scrollbar {
+  display: none;
+}
 
 .app-container {
   display: flex;
