@@ -29,11 +29,19 @@ body::-webkit-scrollbar {
 }
 
 .sidebar {
-  width: 350px;
+  width: 20%;
   background: #f7f8fa;
   border-right: 1px solid #ddd;
   overflow-y: hidden;
   overflow-x: hidden;
+  transition: width 0.3s ease, opacity 0.3s ease; /* Yumuşak geçiş */
+}
+
+.sidebar.hidden {
+  width: 0;
+  border-right: none;
+  opacity: 0;
+  overflow: hidden;
 }
 
 .main {

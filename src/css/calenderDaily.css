@@ -3,6 +3,7 @@
   height: 100vh;
   font-family: sans-serif;
   overflow-y: auto;
+  margin-top: 14px;
 }
 
 .calendar-left {
