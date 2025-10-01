@@ -1,35 +1,41 @@
 import { usePreferences } from '../context/PreferencesContext';
 import CalendarDaily from './list/CalenderDaily';
-
+import '../css/calenderView.css';
 export default function CalenderView() {
     const { calendarType } = usePreferences();
-    let Page;
+
     switch (calendarType) {
         case 0:
-            Page = CalendarDaily;
-            break;
+            return (
+                <div className="calendar-view-container">
+                    <CalendarDaily />
+                </div>
+            );
         // case 1:
-        //     Page = ThreeDaysPage;
-        //     break;
+        //     return (
+        //         <div className="calendar-view-container">
+        //             <ThreeDaysPage />
+        //         </div>
+        //     );
         // case 2:
-        //     Page = WeekPage;
-        //     break;
+        //     return (
+        //         <div className="calendar-view-container">
+        //             <WeekPage />
+        //         </div>
+        //     );
         // case 3:
-        //     Page = DayPage;
-        //     break;
+        //     return (
+        //         <div className="calendar-view-container">
+        //             <DayPage />
+        //         </div>
+        //     );
         // case 4:
-        //     Page = AgendaPage;
-        //     break;
+        //     return (
+        //         <div className="calendar-view-container">
+        //             <AgendaPage />
+        //         </div>
+        //     );
         default:
-            Page = null;
+            return null;
     }
-    return Page ? (
-        <div style={{ 
-            width: '100%', 
-            height: '100%',
-            overflow: 'hidden'
-        }}>
-            <Page />
-        </div>
-    ) : null;
 }

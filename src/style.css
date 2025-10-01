@@ -29,16 +29,15 @@ body::-webkit-scrollbar {
 }
 
 .sidebar {
-  width: 300px;
-  min-width: 300px;
+  width: 350px;
   background: #f7f8fa;
   border-right: 1px solid #ddd;
   overflow-y: hidden;
+  overflow-x: hidden;
 }
 
 .main {
   flex: 1;
-  background: #b8b4b4;
   overflow-y: hidden;
   overflow-x: hidden;
 }
