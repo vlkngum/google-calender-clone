@@ -1,10 +1,10 @@
 import Calendar from "./ui/Calendar";
 import { Plus } from "lucide-react";
 import '../css/sidebar.css';
-import { useDateContext } from '../context/DateContext';
+import { usePreferences } from '../context/PreferencesContext';
 
 export default function Sidebar (){
-    const { isSidebarOpen } = useDateContext();
+    const { isSidebarOpen } = usePreferences();
     
     return (
         <div className={`sidebar-container ${!isSidebarOpen ? 'hidden' : ''}`}>

@@ -10,10 +10,10 @@ const viewOptions = ['Gün', 'Hafta', 'Ay', 'Yıl', 'Planlama'];
 
 export default function Topbar() {
   const { currentMonth, currentYear, selectedDay, setCurrentMonth, setCurrentYear, setSelectedDay } = useDateContext();
-  const { calendarType, setCalendarType } = usePreferences();
+  const { calendarType, setCalendarType, isSidebarOpen, setIsSidebarOpen } = usePreferences();
+  
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const dropdownRef = useRef<HTMLDivElement>(null);
-  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+  const dropdownRef = useRef<HTMLDivElement>(null); 
 
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);

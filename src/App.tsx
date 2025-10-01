@@ -4,10 +4,10 @@ import Topbar from './components/topbar'
 import CalenderView from './components/CalenderView'
 import { DateProvider } from './context/DateContext'
 import { PreferencesProvider } from './context/PreferencesContext'
-import { useDateContext } from './context/DateContext'
+import { usePreferences } from './context/PreferencesContext'
 
 function AppContent() {
-  const { isSidebarOpen } = useDateContext();
+  const { isSidebarOpen } = usePreferences();
   
   return (
     <div className="app-container">
