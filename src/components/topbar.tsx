@@ -57,16 +57,16 @@ export default function Topbar() {
   return (
     <div className="topbar">
       <div className="left">
-        <Menu className="menu" />
+        <Menu className="icon" size={20} />
         <img src={calendarLogo} className="logo" alt="Vite logo" />
-        <span className="left-title">Calendar</span>
+        <span className="left-title">Takvim</span>
         <button className="today-btn" onClick={goToToday}>Bugün</button>
       </div>
 
       <div className="center">
         <div className="center-left">
-          <ChevronLeft className="chevron-left" onClick={prevDay}/>
-          <ChevronRight className="chevron-right" onClick={nextDay}/>
+          <ChevronLeft className="icon"  size={17} onClick={prevDay}/>
+          <ChevronRight className="icon" size={17}  onClick={nextDay}/>
           <span className="date">{currentMonthName} - {nextMonthName} {nextMonthYear}</span> 
         </div>
       </div>

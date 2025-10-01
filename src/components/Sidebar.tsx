@@ -6,7 +6,7 @@ import '../css/sidebar.css';
 export default function Sidebar (){
     return (
         <div className="sidebar-container">
-          <div  className="button-container">
+          <div  className="sidebar-button-container">
             <Plus className="icon"/> 
             <a className="text">Oluştur</a>
           </div >

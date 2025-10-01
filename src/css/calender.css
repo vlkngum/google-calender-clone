@@ -1,4 +1,4 @@
-.calendar {
+.ui-calendar-main {
     margin: 2rem;
     width: min-content;
     display: flex;
@@ -14,7 +14,7 @@
     box-sizing: border-box;
   }
   
-  .calendar-arrow {
+  .icon {
     cursor: pointer;
   }
   

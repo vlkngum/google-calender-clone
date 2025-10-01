@@ -1,4 +1,4 @@
-import '../../css/calendarBig.css';
+import '../../css/CalenderDaily.css';
 
 export default function CalendarBig() {
   return (

@@ -10,7 +10,7 @@
     width: min-content;
     align-items: center;
 }
-.button-container { 
+.sidebar-button-container { 
     display: flex;
     align-items: center;
     gap: 12px;  

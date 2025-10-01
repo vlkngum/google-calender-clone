@@ -49,12 +49,12 @@ export default function Calender() {
   }
 
   return (
-    <div className="calendar">
+    <div className="ui-calendar-main">
       <div className="calendar-header">
         <h1 className='title'>{monthNames[currentMonth]} {currentYear}</h1>
         <div className='arrow-container'>
-            <ChevronLeft className="calendar-arrow" onClick={prevMonth} />
-            <ChevronRight className="calendar-arrow" onClick={nextMonth} />
+            <ChevronLeft className="icon" onClick={prevMonth} />
+            <ChevronRight className="icon" onClick={nextMonth} />
         </div>
       </div>
 
