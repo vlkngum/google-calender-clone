@@ -49,7 +49,4 @@ body::-webkit-scrollbar {
   overflow-y: hidden;
   overflow-x: hidden;
   padding: 10px, 0px;
-  border: 1px solid #ddd;
 }
-
-/*push icin*/

@@ -4,6 +4,7 @@
   font-family: sans-serif;
   overflow-y: auto;
   margin-top: 14px;
+  border-radius: 12px;
 }
 
 .calendar-left {
