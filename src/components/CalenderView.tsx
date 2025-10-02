@@ -1,5 +1,6 @@
 import { usePreferences } from '../context/PreferencesContext';
 import CalendarDaily from './list/CalenderDaily';
+import CalenderWeekly from './list/CalenderWeekly';
 import '../css/calenderView.css';
 export default function CalenderView() {
     const { calendarType } = usePreferences();
@@ -11,12 +12,12 @@ export default function CalenderView() {
                     <CalendarDaily />
                 </div>
             );
-        // case 1:
-        //     return (
-        //         <div className="calendar-view-container">
-        //             <ThreeDaysPage />
-        //         </div>
-        //     );
+         case 1:
+             return (
+                 <div className="calendar-view-container">
+                     <CalenderWeekly />
+                 </div>
+             );
         // case 2:
         //     return (
         //         <div className="calendar-view-container">

@@ -2,6 +2,7 @@ import './style.css'
 import Sidebar from './components/Sidebar'
 import Topbar from './components/Topbar'
 import CalenderView from './components/CalenderView'
+
 import { PreferencesProvider } from './context/PreferencesContext'
 import { usePreferences } from './context/PreferencesContext'
 import { useState } from 'react'
@@ -12,6 +13,8 @@ function AppContent() {
   const [currentMonth, setCurrentMonth] = useState<number>(today.getMonth());
   const [currentYear, setCurrentYear] = useState<number>(today.getFullYear());
   const [selectedDay, setSelectedDay] = useState<number>(today.getDate());
+
+  
   
   return (
     <div className="app-container">
@@ -37,7 +40,14 @@ function AppContent() {
           />
         </aside>
         <main className="main">
-          <CalenderView />
+          <CalenderView  
+            currentMonth={currentMonth}
+            currentYear={currentYear}
+            selectedDay={selectedDay}
+            setCurrentMonth={setCurrentMonth}
+            setCurrentYear={setCurrentYear}
+            setSelectedDay={setSelectedDay}
+          />
         </main>
       </div>
     </div>
