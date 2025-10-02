@@ -1,0 +1,82 @@
+.cal-all-container {
+    display: flex;
+    flex-direction: column;
+    padding: 16px;
+}
+
+.cal-all-day-row {
+    display: flex;
+    align-items: flex-start;
+    padding: 12px 0;
+    border-bottom: 1px solid #e8eaed;
+}
+
+.cal-all-date-label {
+    width: 120px;
+    text-align: right;
+    padding-right: 24px;
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    gap: 8px;
+    align-items: center;
+}
+
+.cal-all-day-number {
+    font-size: 26px;
+    font-weight: 400;
+    color: #3c4043;
+    line-height: 1;
+    margin-bottom: 2px;
+    cursor: pointer;
+}
+
+.cal-all-month-weekday {
+    font-size: 12px;
+    color: #232425;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+}
+
+.cal-all-events-list {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.cal-all-event {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 4px;
+}
+
+.cal-all-dot {
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    background-color: #1a73e8;
+    flex-shrink: 0;
+}
+
+.cal-all-time {
+    font-size: 14px;
+    color: #5f6368;
+    min-width: 120px;
+    flex-shrink: 0;
+}
+
+.cal-all-event-title {
+    font-size: 14px;
+    color: #3c4043;
+    cursor: pointer;
+}
+.cal-all-event:hover {
+    background-color: #cccccc;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+ 

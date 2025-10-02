@@ -18,7 +18,7 @@ const PreferencesContext = createContext<PreferencesContextType | undefined>(und
 export const PreferencesProvider = ({ children }: { children: ReactNode }) => {
     const [language, setLanguage] = useState<string>("tr");
     const [isDarkMode, setIsDarkMode] = useState<boolean>(false);
-    const [calendarType, setCalendarType] = useState<number>(0);
+    const [calendarType, setCalendarType] = useState<number>(4);
     const [isSidebarOpen, setIsSidebarOpen] = useState(true);
 
     return (
