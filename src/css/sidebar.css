@@ -7,7 +7,7 @@
     overflow-y: auto;
     overflow-x: hidden;
     min-height: 100vh;
-    width: min-content;
+    width: 100%;
     align-items: center;
 }
 .sidebar-button-container { 
