@@ -2,22 +2,31 @@ import { useState, useRef, useEffect } from 'react';
 import '../css/Topbar.css';
 import { Menu, ChevronLeft, ChevronRight, ChevronDown } from 'lucide-react';
 import calendarLogo from '../assets/calendar_30_2x.png';
-import { useDateContext } from '../context/DateContext';
 import { usePreferences } from '../context/PreferencesContext';
-
+ 
 const monthNames = ['Ocak', 'Şubat', 'Mart', 'Nisan', 'Mayıs', 'Haziran', 'Temmuz', 'Ağustos', 'Eylül', 'Ekim', 'Kasım', 'Aralık'];
 const viewOptions = ['Gün', 'Hafta', 'Ay', 'Yıl', 'Planlama'];
 
-export default function Topbar() {
-  const { currentMonth, currentYear, selectedDay, setCurrentMonth, setCurrentYear, setSelectedDay } = useDateContext();
-  const { calendarType, setCalendarType, isSidebarOpen, setIsSidebarOpen } = usePreferences();
+interface TopbarProps {
+  currentMonth: number;
+  currentYear: number;
+  selectedDay: number;
+  setCurrentMonth: (m: number) => void;
+  setCurrentYear: (y: number) => void;
+  setSelectedDay: (d: number) => void;
+  calendarType: number;
+  setCalendarType: (v: number) => void;
+}
+
+export default function Topbar({ currentMonth, currentYear, selectedDay, setCurrentMonth, setCurrentYear, setSelectedDay, calendarType, setCalendarType }: TopbarProps) {
+  const { isSidebarOpen, setIsSidebarOpen } = usePreferences();
   
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null); 
 
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
-  }
+  }
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {

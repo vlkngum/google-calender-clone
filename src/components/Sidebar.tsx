@@ -3,7 +3,16 @@ import { Plus } from "lucide-react";
 import '../css/sidebar.css';
 import { usePreferences } from '../context/PreferencesContext';
 
-export default function Sidebar (){
+interface SidebarProps {
+    currentMonth: number;
+    currentYear: number;
+    selectedDay: number;
+    setCurrentMonth: (m: number) => void;
+    setCurrentYear: (y: number) => void;
+    setSelectedDay: (d: number) => void;
+}
+
+export default function Sidebar ({ currentMonth, currentYear, selectedDay, setCurrentMonth, setCurrentYear, setSelectedDay }: SidebarProps){
     const { isSidebarOpen } = usePreferences();
     
     return (
@@ -12,7 +21,14 @@ export default function Sidebar (){
             <Plus className="icon"/> 
             <a className="text">Oluştur</a>
           </div>
-          <Calendar/>
+          <Calendar
+            currentMonth={currentMonth}
+            currentYear={currentYear}
+            selectedDay={selectedDay}
+            setCurrentMonth={setCurrentMonth}
+            setCurrentYear={setCurrentYear}
+            setSelectedDay={setSelectedDay}
+          />
         </div>
     );
 }

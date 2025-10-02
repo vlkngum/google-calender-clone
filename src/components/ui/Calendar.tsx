@@ -1,12 +1,19 @@
 import { ChevronRight, ChevronLeft } from 'lucide-react';
 import '../../css/calender.css';
-import { useDateContext } from '../../context/DateContext';
 
 const monthNames = ['Ocak', 'Şubat', 'Mart', 'Nisan', 'Mayıs', 'Haziran', 'Temmuz', 'Ağustos', 'Eylül', 'Ekim', 'Kasım', 'Aralık'];
 const dayNames = ['P', 'S', 'Ç', 'P', 'C', 'C', 'P'];
 
-export default function Calender() {
-  const { currentMonth, currentYear, selectedDay, setCurrentMonth, setCurrentYear, setSelectedDay } = useDateContext();
+interface CalendarProps {
+  currentMonth: number;
+  currentYear: number;
+  selectedDay: number;
+  setCurrentMonth: (m: number) => void;
+  setCurrentYear: (y: number) => void;
+  setSelectedDay: (d: number) => void;
+}
+
+export default function Calender({ currentMonth, currentYear, selectedDay, setCurrentMonth, setCurrentYear, setSelectedDay }: CalendarProps) {
   
   const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
 
