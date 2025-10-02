@@ -175,13 +175,12 @@
 
 .weekly-current-time-line {
   position: absolute;
-  left: 0;
-  right: 0;
   height: 2px;
   background: #ea4335;
   z-index: 100;
-  pointer-events: none;
 }
+
+
 
 .weekly-current-time-line::before {
   content: '';

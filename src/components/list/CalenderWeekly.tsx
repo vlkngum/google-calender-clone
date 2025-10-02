@@ -1,95 +1,119 @@
 import '../../css/CalendarWeekly.css';
+import { rawEvents } from '../../data/events';
+
+function getStartOfWeek(date: Date) {
+  const day = date.getDay();
+  const diff = date.getDate() - day + (day === 0 ? -6 : 1);
+  return new Date(date.setDate(diff));
+}
+
+function getWeekDays(currentDate: Date) {
+  const startOfWeek = getStartOfWeek(new Date(currentDate));
+  const days = [];
+  const dayNames = ['Pzt', 'Sal', 'Çar', 'Per', 'Cum', 'Cmt', 'Paz'];
+
+  for (let i = 0; i < 7; i++) {
+    const d = new Date(startOfWeek);
+    d.setDate(startOfWeek.getDate() + i);
+
+    days.push({
+      name: dayNames[i],
+      date: d,
+      isToday:
+        d.getDate() === currentDate.getDate() &&
+        d.getMonth() === currentDate.getMonth() &&
+        d.getFullYear() === currentDate.getFullYear(),
+    });
+  }
+  return days;
+}
 
 export default function CalendarWeekly() {
-  const days = [
-    { name: 'Pzt', date: '29 Eyl', isToday: false },
-    { name: 'Sal', date: '30 Eyl', isToday: false },
-    { name: 'Çar', date: '1 Eki', isToday: true },
-    { name: 'Per', date: '2 Eki', isToday: false },
-    { name: 'Cum', date: '3 Eki', isToday: false },
-    { name: 'Cmt', date: '4 Eki', isToday: false },
-    { name: 'Paz', date: '5 Eki', isToday: false },
-  ];
+  const today = new Date();
+  const days = getWeekDays(today);
+
+  const todayIndex = days.findIndex(day => day.isToday);
+  const columnWidthPercent = 100 / days.length;
 
   return (
     <div className="calendar-weekly-main">
       <div className="weekly-time-column">
         <div className="weekly-time-header"></div>
         <div className="weekly-time-labels">
-          <p>00:00</p>
-          <p>01:00</p>
-          <p>02:00</p>
-          <p>03:00</p>
-          <p>04:00</p>
-          <p>05:00</p>
-          <p>06:00</p>
-          <p>07:00</p>
-          <p>08:00</p>
-          <p>09:00</p>
-          <p>10:00</p>
-          <p>11:00</p>
-          <p>12:00</p>
-          <p>13:00</p>
-          <p>14:00</p>
-          <p>15:00</p>
-          <p>16:00</p>
-          <p>17:00</p>
-          <p>18:00</p>
-          <p>19:00</p>
-          <p>20:00</p>
-          <p>21:00</p>
-          <p>22:00</p>
-          <p>23:00</p>
+          {Array.from({ length: 24 }).map((_, i) => (
+            <p key={i}>{i.toString().padStart(2, '0')}:00</p>
+          ))}
         </div>
       </div>
 
       <div className="weekly-calendar-right">
         <div className="weekly-days-header">
           {days.map((day, index) => (
-            <div key={index} className={`weekly-day-header ${day.isToday ? 'today' : ''}`}>
+            <div
+              key={index}
+              className={`weekly-day-header ${day.isToday ? 'today' : ''}`}
+            >
               <div className="day-name">{day.name}</div>
-              <div className={`day-date ${day.isToday ? 'today-circle' : ''}`}>
-                {day.date.split(' ')[0]}
+              <div
+                className={`day-date ${day.isToday ? 'today-circle' : ''}`}
+              >
+                {day.date.getDate()}
               </div>
             </div>
           ))}
         </div>
 
         <div className="weekly-grid-container">
-          {days.map((day, dayIndex) => (
-            <div key={dayIndex} className={`weekly-day-column ${day.isToday ? 'today-column' : ''}`}>
-              <div className="weekly-day-grid">
-                {dayIndex === 0 && (
-                  <div className="weekly-event" style={{ gridRow: '13 / span 1' }}>
-                    <div className="event-content">
-                      <p className="event-title">Toplantı</p>
-                      <p className="event-time">12:00 - 13:00</p>
-                    </div>
-                  </div>
-                )}
-                
-                {dayIndex === 2 && (
-                  <div className="weekly-event" style={{ gridRow: '15 / span 2' }}>
-                    <div className="event-content">
-                      <p className="event-title">Proje Sunumu</p>
-                      <p className="event-time">14:00 - 16:00</p>
-                    </div>
-                  </div>
-                )}
+          {days.map((day, dayIndex) => {
+            const dayEvents = rawEvents.filter(
+              (ev) =>
+                ev.year === day.date.getFullYear() &&
+                ev.month === day.date.getMonth() + 1 &&
+                ev.day === day.date.getDate()
+            );
 
-                {dayIndex === 4 && (
-                  <div className="weekly-event" style={{ gridRow: '11 / span 1' }}>
-                    <div className="event-content">
-                      <p className="event-title">Ekip Toplantısı</p>
-                      <p className="event-time">10:00 - 11:00</p>
-                    </div>
-                  </div>
-                )}
+            return (
+              <div
+                key={dayIndex}
+                className={`weekly-day-column ${
+                  day.isToday ? 'today-column' : ''
+                }`}
+              >
+                <div className="weekly-day-grid">
+                  {dayEvents.map((ev) => {
+                    const startRow = ev.hour + 1;
+                    const duration = ev.endHour - ev.hour;
+
+                    return (
+                      <div
+                        key={ev.id}
+                        className="weekly-event"
+                        style={{ gridRow: `${startRow} / span ${duration}` }}
+                      >
+                        <div className="event-content">
+                          <p className="event-title">{ev.title}</p>
+                          <p className="event-time">
+                            {ev.hour}:00 - {ev.endHour}:00
+                          </p>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
 
-          <div className="weekly-current-time-line" style={{ top: '540px' }}></div>
+          {todayIndex !== -1 && (
+            <div
+              className="weekly-current-time-line"
+              style={{
+                top: `${today.getHours() * 60 + today.getMinutes()}px`,
+                left: `${todayIndex * columnWidthPercent}%`,
+                width: `${columnWidthPercent}%`,
+              }}
+            ></div>
+          )}
         </div>
       </div>
     </div>

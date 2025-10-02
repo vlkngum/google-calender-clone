@@ -11,7 +11,8 @@ export const rawEvents = [
   { id: '9', title: 'Toplantı 8', year: 2025, month: 9, day: 2, hour: 22, endYear: 2025, endMonth: 9, endDay: 2, endHour: 23 },
   { id: '10', title: 'Buluşma', year: 2025, month: 9, day: 3, hour: 6, endYear: 2025, endMonth: 9, endDay: 3, endHour: 7 },
   { id: '11', title: 'Yemek', year: 2025, month: 9, day: 3, hour: 14, endYear: 2025, endMonth: 9, endDay: 3, endHour: 15 },
-  { id: '12', title: 'Ekip Toplantısı', year: 2025, month: 9, day: 3, hour: 19, endYear: 2025, endMonth: 9, endDay: 3, endHour: 20 }
+  { id: '12', title: 'Ekip Toplantısı', year: 2025, month: 9, day: 3, hour: 19, endYear: 2025, endMonth: 9, endDay: 3, endHour: 20 },
+  { id: '13', title: 'Ekip Toplantısı', year: 2025, month: 10, day: 2, hour: 19, endYear: 2025, endMonth: 10, endDay: 2, endHour: 20 }
 ];
 
 
