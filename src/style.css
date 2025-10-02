@@ -29,12 +29,11 @@ body::-webkit-scrollbar {
 }
 
 .sidebar {
-  width: 20%;
+  width: 18%;
   background: #f7f8fa;
-  border-right: 1px solid #ddd;
   overflow-y: hidden;
   overflow-x: hidden;
-  transition: width 0.3s ease, opacity 0.3s ease; /* Yumuşak geçiş */
+  transition: width 0.3s ease, opacity 0.3s ease; 
 }
 
 .sidebar.hidden {
@@ -49,6 +48,8 @@ body::-webkit-scrollbar {
   flex: 1;
   overflow-y: hidden;
   overflow-x: hidden;
+  padding: 10px, 0px;
+  border: 1px solid #ddd;
 }
 
 /*push icin*/

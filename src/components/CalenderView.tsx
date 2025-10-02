@@ -1,39 +1,55 @@
 import { usePreferences } from '../context/PreferencesContext';
 import CalendarDaily from './list/CalenderDaily';
-import CalenderWeekly from './list/CalenderWeekly';
 import '../css/calenderView.css';
-export default function CalenderView() {
+import CalendarWeekly from './list/CalenderWeekly';
+interface CalenderViewProps {
+    currentMonth: number;
+    currentYear: number;
+    selectedDay: number;
+    setCurrentMonth: (m: number) => void;
+    setCurrentYear: (y: number) => void;
+    setSelectedDay: (d: number) => void;
+}
+
+export default function CalenderView({ currentMonth, currentYear, selectedDay, setCurrentMonth, setCurrentYear, setSelectedDay }: CalenderViewProps) {
     const { calendarType } = usePreferences();
 
     switch (calendarType) {
         case 0:
             return (
                 <div className="calendar-view-container">
-                    <CalendarDaily />
+                    <CalendarDaily 
+                        currentMonth={currentMonth}
+                        currentYear={currentYear}
+                        selectedDay={selectedDay}
+                        setCurrentMonth={setCurrentMonth}
+                        setCurrentYear={setCurrentYear}
+                        setSelectedDay={setSelectedDay} 
+                    />
                 </div>
             );
-         case 1:
-             return (
-                 <div className="calendar-view-container">
-                     <CalenderWeekly />
-                 </div>
-             );
+        case 1:
+            return (
+                <div className="calendar-view-container">
+                     <CalendarWeekly />
+                </div>
+            );
         // case 2:
         //     return (
         //         <div className="calendar-view-container">
-        //             <WeekPage />
+        //             <Ay />
         //         </div>
         //     );
         // case 3:
         //     return (
         //         <div className="calendar-view-container">
-        //             <DayPage />
+        //             <Yıl />
         //         </div>
         //     );
         // case 4:
         //     return (
         //         <div className="calendar-view-container">
-        //             <AgendaPage />
+        //             <CalendarWeekly />
         //         </div>
         //     );
         default:

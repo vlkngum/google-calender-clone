@@ -1,7 +1,0 @@
-.calendar {
-  display: flex;
-  height: 100vh;
-  font-family: sans-serif;
-  overflow-y: auto;
-  width: 100%;
-}

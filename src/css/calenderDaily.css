@@ -32,7 +32,6 @@
 
 .grid-container {
   display: grid;
-  grid-template-rows: repeat(25, 60px);
   position: relative;
   background: 
     repeating-linear-gradient(
@@ -45,6 +44,11 @@
   min-height: 1500px;
   margin-top: 8px;
 }
+.event:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+}
 
 .current-time-line {
   position: absolute;
@@ -52,7 +56,6 @@
   right: 0;
   height: 2px;
   background: #ea4335;
-  top: 540px;
   z-index: 10;
 }
 
