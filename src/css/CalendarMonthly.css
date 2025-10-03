@@ -1,0 +1,146 @@
+.calendar-monthly-main {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    font-family: 'Google Sans', 'Roboto', sans-serif;
+    background: #fff;
+    border-radius: 12px;
+    overflow: hidden;
+  }
+  
+  .monthly-day-name {
+    padding: 12px 0;
+    text-align: center;
+    font-size: 11px;
+    color: #70757a;
+    text-transform: uppercase;
+    font-weight: 500;
+    letter-spacing: 0.8px;
+    border-right: 1px solid #e8eaed;
+  }
+  
+  .monthly-day-name:last-child {
+    border-right: none;
+  }
+  
+  .monthly-grid {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    overflow-y: auto;
+  }
+  
+  .monthly-week {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    flex: 1;
+    min-height: 120px;
+  }
+  
+  .monthly-day-cell {
+    border-right: 1px solid #e8eaed;
+    border-bottom: 1px solid #e8eaed;
+    padding: 4px 8px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+  
+  .monthly-day-cell:nth-child(7n) {
+    border-right: none;
+  }
+  
+  .monthly-day-cell:hover {
+    background-color: #f8f9fa;
+  }
+  
+  .monthly-day-cell.other-month {
+    background-color: #fafafa;
+  }
+  
+  .monthly-day-cell.other-month .day-number {
+    color: #babdbf;
+  }
+  
+  .monthly-day-cell.selected {
+    background-color: #e8f0fe;
+  }
+  
+  .day-number-wrapper {
+    display: flex;
+    justify-content: flex-start;
+    margin-bottom: 4px;
+  }
+  
+  .day-number {
+    font-size: 13px;
+    color: #3c4043;
+    font-weight: 400;
+    width: 26px;
+    height: 26px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .today-circle {
+    background: #1967d2;
+    border-radius: 50%;
+    color: white !important;
+    font-weight: 500;
+  }
+  
+  .monthly-events-container {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    overflow: hidden;
+  }
+  
+  .monthly-event {
+    background: #039be5;
+    border-radius: 3px;
+    padding: 2px 6px;
+    font-size: 11px;
+    color: white;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    white-space: nowrap;
+    overflow: hidden;
+    cursor: pointer;
+    transition: transform 0.1s ease;
+  }
+  
+  .monthly-event:hover {
+    transform: translateX(2px);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+  }
+  
+  .event-time {
+    font-weight: 500;
+    font-size: 10px;
+    opacity: 0.95;
+  }
+  
+  .event-title {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    flex: 1;
+  }
+  
+  .more-events {
+    font-size: 11px;
+    color: #5f6368;
+    padding: 2px 6px;
+    cursor: pointer;
+    transition: color 0.2s ease;
+  }
+  
+  .more-events:hover {
+    color: #1967d2;
+    font-weight: 500;
+  }

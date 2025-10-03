@@ -3,6 +3,7 @@ import '../css/calenderView.css';
 import { usePreferences } from '../context/PreferencesContext';
 import CalendarDaily from './list/CalenderDaily';
 import CalendarWeekly from './list/CalenderWeekly';
+import CalendarMonthly from './list/CalendarMonthly';
 import CalendarAll from './list/CalenderAll';
 
 interface CalenderViewProps {
@@ -51,12 +52,19 @@ export default function CalenderView({
                     />
                 </div>
             );
-        case 2:
-            return (
-                <div className="calendar-view-container">
-                    <></>
-                </div>
-            );
+            case 2:
+                return (
+                    <div className="calendar-view-container">
+                        <CalendarMonthly
+                            currentMonth={currentMonth}
+                            currentYear={currentYear}
+                            selectedDay={selectedDay}
+                            setCurrentMonth={setCurrentMonth}
+                            setCurrentYear={setCurrentYear}
+                            setSelectedDay={setSelectedDay}
+                        />
+                    </div>
+                );
         case 3:
             return (
                 <div className="calendar-view-container">

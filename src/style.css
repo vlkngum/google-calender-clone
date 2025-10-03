@@ -29,7 +29,7 @@ body::-webkit-scrollbar {
 }
 
 .sidebar {
-  width: 15%;
+  width: 300px;
   background: #f7f8fa;
   overflow-y: hidden;
   overflow-x: hidden;
@@ -49,4 +49,5 @@ body::-webkit-scrollbar {
   overflow-y: hidden;
   overflow-x: hidden;
   padding: 10px, 0px;
+  border-radius: 12px;
 }
