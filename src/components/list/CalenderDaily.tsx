@@ -40,15 +40,15 @@ export default function CalenderDaily({
   const events: CalendarEvent[] = rawEvents.map(e => ({
     id: e.id,
     title: e.title,
-    start: new Date(e.year, e.month - 1, e.day, e.hour, 0),
-    end: new Date(e.endYear, e.endMonth - 1, e.endDay, e.endHour, 0)
+    start: new Date(e.year, e.month , e.day, e.hour, 0),
+    end: new Date(e.endYear, e.endMonth , e.endDay, e.endHour, 0)
   }));
 
   const sorted = events
     .filter(event => {
       const eventDate = event.start;
       return eventDate.getFullYear() === currentYear &&
-             eventDate.getMonth() === currentMonth - 1 &&
+             eventDate.getMonth() === currentMonth &&
              eventDate.getDate() === selectedDay;
     })
     .sort((a, b) => a.start.getTime() - b.start.getTime());
@@ -97,8 +97,8 @@ export default function CalenderDaily({
         className="event" 
         style={{ 
           gridRow: `${startRow} / span ${durationRows}`,
-          width: `calc(${widthPercent}% - 10px)`,
-          marginLeft: `calc(${leftPercent}% + 2px)`,
+          width: `${widthPercent}%`,
+          marginLeft: `${leftPercent}%`,
           marginRight: '0'
         }}
       >
@@ -111,19 +111,19 @@ export default function CalenderDaily({
   });
 
   const [currentTop, setCurrentTop] = useState<number>(() => {
-    const now = new Date();
-    return now.getHours() * hourHeightPx;
-  });
+  const now = new Date();
+  return (now.getHours() * 60 + now.getMinutes()) * (hourHeightPx / 60);
+});
 
-  useEffect(() => {
-    const update = () => {
-      const now = new Date();
-      setCurrentTop(now.getHours() * hourHeightPx);
-    };
-    update();
-    const id = setInterval(update, 60 * 1000);
-    return () => clearInterval(id);
-  }, [hourHeightPx]);
+useEffect(() => {
+  const update = () => {
+    const now = new Date();
+    setCurrentTop((now.getHours() * 60 + now.getMinutes()) * (hourHeightPx / 60));
+  };
+  update();
+  const id = setInterval(update, 60 * 1000);
+  return () => clearInterval(id);
+}, [hourHeightPx]);
 
   return (
     <div className="calendar-main">

@@ -7,16 +7,25 @@ const Month = [
 
 const Days = ['Paz', 'Pzt', 'Sal', 'Çar', 'Per', 'Cum', 'Cmt'];
 
-export default function CalenderAll() { 
+interface CalendarAllProps {
+  currentMonth: number;
+  currentYear: number;
+  selectedDay: number;
+  setCurrentMonth: (m: number) => void;
+  setCurrentYear: (y: number) => void;
+  setSelectedDay: (d: number) => void;
+}
+
+export default function CalenderAll({ currentMonth, currentYear, selectedDay }: CalendarAllProps) {
   const events = rawEvents.map(event => ({
     id: event.id,
     title: event.title,
-    start: new Date(event.year, event.month - 1, event.day, event.hour || 0, 0),
-    end: new Date(event.endYear, event.endMonth - 1, event.endDay, event.endHour || event.hour || 0, 0)
+    start: new Date(event.year, event.month, event.day, event.hour || 0, 0),
+    end: new Date(event.endYear, event.endMonth, event.endDay, event.endHour || event.hour || 0, 0)
   }));
- 
+
   const sortedEvents = events.sort((a, b) => a.start.getTime() - b.start.getTime());
- 
+
   const groupedByDay: Record<string, typeof events> = {};
   sortedEvents.forEach(event => {
     const dayKey = `${event.start.getFullYear()}-${event.start.getMonth()}-${event.start.getDate()}`;
@@ -26,6 +35,19 @@ export default function CalenderAll() {
     groupedByDay[dayKey].push(event);
   });
 
+  const selectedDate = new Date(currentYear, currentMonth, selectedDay);
+  const dayKeys = Object.keys(groupedByDay);
+
+  const sortedDayKeys = dayKeys
+    .map(key => {
+      const [year, month, day] = key.split('-').map(Number);
+      const date = new Date(year, month, day);
+      return { key, date };
+    })
+    .filter(item => item.date.getTime() >= selectedDate.getTime())
+    .sort((a, b) => a.date.getTime() - b.date.getTime())
+    .map(item => item.key);
+
   function formatTime(date: Date) {
     const hours = date.getHours().toString().padStart(2, '0');
     const minutes = date.getMinutes().toString().padStart(2, '0');
@@ -34,10 +56,11 @@ export default function CalenderAll() {
 
   return (
     <div className='cal-all-container'>
-      {Object.entries(groupedByDay).map(([dayKey, dayEvents]) => {
+      {sortedDayKeys.map(dayKey => {
+        const dayEvents = groupedByDay[dayKey];
         const firstEvent = dayEvents[0];
         const dayDate = firstEvent.start;
-        
+
         return (
           <div key={dayKey} className="cal-all-day-row">
             <div className='cal-all-date-label'>
@@ -46,7 +69,7 @@ export default function CalenderAll() {
                 {Month[dayDate.getMonth()]}, {Days[dayDate.getDay()]}
               </div>
             </div>
-            
+
             <div className="cal-all-events-list">
               {dayEvents.map(event => (
                 <div key={event.id} className="cal-all-event">
