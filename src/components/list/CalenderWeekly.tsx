@@ -1,6 +1,15 @@
 import '../../css/CalendarWeekly.css';
 import { rawEvents } from '../../data/events';
 
+interface CalendarWeeklyProps {
+  currentMonth: number;
+  currentYear: number;
+  selectedDay: number;
+  setCurrentMonth: (m: number) => void;
+  setCurrentYear: (y: number) => void;
+  setSelectedDay: (d: number) => void;
+}
+
 function getStartOfWeek(date: Date) {
   const day = date.getDay();
   const diff = date.getDate() - day + (day === 0 ? -6 : 1);
@@ -28,11 +37,21 @@ function getWeekDays(currentDate: Date) {
   return days;
 }
 
-export default function CalendarWeekly() {
-  const today = new Date();
-  const days = getWeekDays(today);
+export default function CalendarWeekly({ 
+  currentMonth, 
+  currentYear, 
+  selectedDay 
+}: CalendarWeeklyProps) {
+  const selectedDate = new Date(currentYear, currentMonth, selectedDay);
+  const days = getWeekDays(selectedDate);
 
-  const todayIndex = days.findIndex(day => day.isToday);
+  const today = new Date();
+  const todayIndex = days.findIndex(day => 
+    day.date.getDate() === today.getDate() &&
+    day.date.getMonth() === today.getMonth() &&
+    day.date.getFullYear() === today.getFullYear()
+  );
+  
   const columnWidthPercent = 100 / days.length;
 
   return (
@@ -51,11 +70,23 @@ export default function CalendarWeekly() {
           {days.map((day, index) => (
             <div
               key={index}
-              className={`weekly-day-header ${day.isToday ? 'today' : ''}`}
+              className={`weekly-day-header ${
+                day.date.getDate() === selectedDay &&
+                day.date.getMonth() === currentMonth &&
+                day.date.getFullYear() === currentYear
+                  ? 'today'
+                  : ''
+              }`}
             >
               <div className="day-name">{day.name}</div>
               <div
-                className={`day-date ${day.isToday ? 'today-circle' : ''}`}
+                className={`day-date ${
+                  day.date.getDate() === selectedDay &&
+                  day.date.getMonth() === currentMonth &&
+                  day.date.getFullYear() === currentYear
+                    ? 'today-circle'
+                    : ''
+                }`}
               >
                 {day.date.getDate()}
               </div>
@@ -76,7 +107,11 @@ export default function CalendarWeekly() {
               <div
                 key={dayIndex}
                 className={`weekly-day-column ${
-                  day.isToday ? 'today-column' : ''
+                  day.date.getDate() === selectedDay &&
+                  day.date.getMonth() === currentMonth &&
+                  day.date.getFullYear() === currentYear
+                    ? 'today-column'
+                    : ''
                 }`}
               >
                 <div className="weekly-day-grid">

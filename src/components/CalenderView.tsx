@@ -4,6 +4,7 @@ import { usePreferences } from '../context/PreferencesContext';
 import CalendarDaily from './list/CalenderDaily';
 import CalendarWeekly from './list/CalenderWeekly';
 import CalendarAll from './list/CalenderAll';
+
 interface CalenderViewProps {
     currentMonth: number;
     currentYear: number;
@@ -13,7 +14,14 @@ interface CalenderViewProps {
     setSelectedDay: (d: number) => void;
 }
 
-export default function CalenderView({ currentMonth, currentYear, selectedDay, setCurrentMonth, setCurrentYear, setSelectedDay }: CalenderViewProps) {
+export default function CalenderView({ 
+    currentMonth, 
+    currentYear, 
+    selectedDay, 
+    setCurrentMonth, 
+    setCurrentYear, 
+    setSelectedDay 
+}: CalenderViewProps) {
     const { calendarType } = usePreferences();
 
     switch (calendarType) {
@@ -33,7 +41,14 @@ export default function CalenderView({ currentMonth, currentYear, selectedDay, s
         case 1:
             return (
                 <div className="calendar-view-container">
-                     <CalendarWeekly />
+                     <CalendarWeekly 
+                        currentMonth={currentMonth}
+                        currentYear={currentYear}
+                        selectedDay={selectedDay}
+                        setCurrentMonth={setCurrentMonth}
+                        setCurrentYear={setCurrentYear}
+                        setSelectedDay={setSelectedDay}
+                    />
                 </div>
             );
         // case 2:
