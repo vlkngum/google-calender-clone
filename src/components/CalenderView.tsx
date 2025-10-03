@@ -51,18 +51,18 @@ export default function CalenderView({
                     />
                 </div>
             );
-        // case 2:
-        //     return (
-        //         <div className="calendar-view-container">
-        //             <Ay />
-        //         </div>
-        //     );
-        // case 3:
-        //     return (
-        //         <div className="calendar-view-container">
-        //             <Yıl />
-        //         </div>
-        //     );
+        case 2:
+            return (
+                <div className="calendar-view-container">
+                    <></>
+                </div>
+            );
+        case 3:
+            return (
+                <div className="calendar-view-container">
+                    <></>  
+                </div>
+            );
         case 4:
             return (
                 <div className="calendar-view-container">
