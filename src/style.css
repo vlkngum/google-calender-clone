@@ -4,6 +4,7 @@ body {
   padding: 0;
   user-select: none;
   overflow: hidden;
+  
 }
 
 * {
@@ -54,3 +55,5 @@ body::-webkit-scrollbar {
 body.dark-theme .main {
   background: #1e1f21;
 }
+
+body.dark-theme { background: #1e1f21 }
