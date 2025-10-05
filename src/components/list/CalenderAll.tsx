@@ -1,11 +1,24 @@
 import '../../css/calenderAll.css';
 import { rawEvents } from '../../data/events';
+import { usePreferences } from '../../context/PreferencesContext';
 
-const Month = [
-  'Oca', 'Şub', 'Mar', 'Nis', 'May', 'Haz', 'Tem', 'Ağu', 'Eyl', 'Eki', 'Kas', 'Ara'
-];
-
-const Days = ['Paz', 'Pzt', 'Sal', 'Çar', 'Per', 'Cum', 'Cmt'];
+const langTralator: Record<string, { Month: string[]; Days: string[]; locale: string }> = {
+  tr: {
+    Month: ['Oca','Şub','Mar','Nis','May','Haz','Tem','Ağu','Eyl','Eki','Kas','Ara'],
+    Days: ['Paz','Pzt','Sal','Çar','Per','Cum','Cmt'],
+    locale: 'tr-TR'
+  },
+  en: {
+    Month: ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'],
+    Days: ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'],
+    locale: 'en-US'
+  },
+  es: {
+    Month: ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'],
+    Days: ['Dom','Lun','Mar','Mié','Jue','Vie','Sáb'],
+    locale: 'es-ES'
+  }
+};
 
 interface CalendarAllProps {
   currentMonth: number;
@@ -17,6 +30,10 @@ interface CalendarAllProps {
 }
 
 export default function CalenderAll({ currentMonth, currentYear, selectedDay }: CalendarAllProps) {
+  const { language } = usePreferences();
+  const locales = Object.keys(langTralator);
+  const currentLocaleKey = locales[language] ?? locales[0];
+  const { Month, Days, locale } = langTralator[currentLocaleKey];
   const events = rawEvents.map(event => ({
     id: event.id,
     title: event.title,
@@ -48,10 +65,9 @@ export default function CalenderAll({ currentMonth, currentYear, selectedDay }: 
     .sort((a, b) => a.date.getTime() - b.date.getTime())
     .map(item => item.key);
 
+  const timeFormatter = new Intl.DateTimeFormat(locale, { hour: 'numeric', minute: '2-digit' });
   function formatTime(date: Date) {
-    const hours = date.getHours().toString().padStart(2, '0');
-    const minutes = date.getMinutes().toString().padStart(2, '0');
-    return `${hours}:${minutes}`;
+    return timeFormatter.format(date);
   }
 
   return (

@@ -1,5 +1,6 @@
 import '../../css/CalendarYear.css';
 import { rawEvents } from '../../data/events';
+import { usePreferences } from '../../context/PreferencesContext';
 
 interface CalendarYearProps {
   currentMonth: number;
@@ -75,10 +76,15 @@ export default function CalendarYear({
   setCurrentYear,
   setSelectedDay,
 }: CalendarYearProps) {
-  const monthNames = [
-    'Ocak', 'Şubat', 'Mart', 'Nisan', 'Mayıs', 'Haziran',
-    'Temmuz', 'Ağustos', 'Eylül', 'Ekim', 'Kasım', 'Aralık'
-  ];
+  const { language } = usePreferences();
+  const langTralator: Record<string, { months: string[] }> = {
+    tr: { months: ['Ocak', 'Şubat', 'Mart', 'Nisan', 'Mayıs', 'Haziran', 'Temmuz', 'Ağustos', 'Eylül', 'Ekim', 'Kasım', 'Aralık'] },
+    en: { months: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'] },
+    es: { months: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'] },
+  };
+  const locales = Object.keys(langTralator);
+  const currentLocaleKey = locales[language] ?? locales[0];
+  const monthNames = langTralator[currentLocaleKey].months;
   
   const dayNames = ['P', 'S', 'Ç', 'P', 'C', 'C', 'P'];
   const today = new Date();

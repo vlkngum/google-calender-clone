@@ -1,5 +1,6 @@
 import '../../css/CalendarMonthly.css';
 import { rawEvents } from '../../data/events';
+import { usePreferences } from '../../context/PreferencesContext';
 
 interface CalendarMonthlyProps {
   currentMonth: number;
@@ -16,7 +17,7 @@ function getDaysInMonth(month: number, year: number) {
 
 function getFirstDayOfMonth(month: number, year: number) {
   const day = new Date(year, month, 1).getDay();
-  return day === 0 ? 6 : day - 1; // Convert Sunday=0 to Sunday=6, Monday=0
+  return day === 0 ? 6 : day - 1;  
 }
 
 function getCalendarGrid(month: number, year: number) {
@@ -85,6 +86,15 @@ export default function CalendarMonthly({
   setCurrentYear,
   setSelectedDay,
 }: CalendarMonthlyProps) {
+  const { language } = usePreferences();
+  const langTralator: Record<string, { months: string[]; more: (n: number) => string }> = {
+    tr: { months: ['Ocak','Şubat','Mart','Nisan','Mayıs','Haziran','Temmuz','Ağustos','Eylül','Ekim','Kasım','Aralık'], more: (n) => `+${n} tane daha` },
+    en: { months: ['January','February','March','April','May','June','July','August','September','October','November','December'], more: (n) => `+${n} more` },
+    es: { months: ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'], more: (n) => `+${n} más` },
+  };
+  const locales = Object.keys(langTralator);
+  const currentLocaleKey = locales[language] ?? locales[0];
+  const moreLabel = langTralator[currentLocaleKey].more;
   const weeks = getCalendarGrid(currentMonth, currentYear);
   const today = new Date();
 
@@ -154,7 +164,7 @@ export default function CalendarMonthly({
                     ))}
                     {events.length > 3 && (
                       <div className="more-events">
-                        +{events.length - 3} tane daha
+                        {moreLabel(events.length - 3)}
                       </div>
                     )}
                   </div>

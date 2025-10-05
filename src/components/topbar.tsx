@@ -4,10 +4,33 @@ import { Menu, ChevronLeft, ChevronRight, ChevronDown, Moon, Sun } from 'lucide
 import calendarLogo from '../assets/calendar_30_2x.png';
 import { usePreferences } from '../context/PreferencesContext';
  
-const monthNames = ['Ocak', 'Şubat', 'Mart', 'Nisan', 'Mayıs', 'Haziran', 'Temmuz', 'Ağustos', 'Eylül', 'Ekim', 'Kasım', 'Aralık'];
-const viewOptions = ['Gün', 'Hafta', 'Ay', 'Yıl', 'Planlama'];
+const langTranslator: Record<string, {
+  displayName: string;
+  months: string[];
+  viewOptions: string[];
+  labels: { today: string; calendar: string };
+}> = {
+  tr: {
+    displayName: 'Türkçe',
+    months: ['Ocak', 'Şubat', 'Mart', 'Nisan', 'Mayıs', 'Haziran', 'Temmuz', 'Ağustos', 'Eylül', 'Ekim', 'Kasım', 'Aralık'],
+    viewOptions: ['Gün', 'Hafta', 'Ay', 'Yıl', 'Planlama'],
+    labels: { today: 'Bugün', calendar: 'Takvim' }
+  },
+  en: {
+    displayName: 'English',
+    months: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+    viewOptions: ['Day', 'Week', 'Month', 'Year', 'Schedule'],
+    labels: { today: 'Today', calendar: 'Calendar' }
+  },
+  es: {
+    displayName: 'Español',
+    months: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+    viewOptions: ['Día', 'Semana', 'Mes', 'Año', 'Agenda'],
+    labels: { today: 'Hoy', calendar: 'Calendario' }
+  }
+};
 
-const langOptions = ['Türkçe', 'İngilizce'];
+const locales = Object.keys(langTranslator); 
 
 interface TopbarProps {
   currentMonth: number;
@@ -80,6 +103,13 @@ const toggleTheme = () => {
     }
   }
 
+  const currentLocale = locales[language] ?? locales[0];
+  const t = langTranslator[currentLocale];
+  const monthNames = t.months;
+  const viewOptions = t.viewOptions;
+  const todayLabel = t.labels.today;
+  const calendarLabel = t.labels.calendar;
+
   const currentMonthName = monthNames[currentMonth];
 
   const goToToday = () => {
@@ -104,12 +134,12 @@ const toggleTheme = () => {
       <div className="left">
         <Menu className="icon" size={20} onClick={toggleSidebar} style={{ cursor: 'pointer' }} />
         <img src={calendarLogo} className="logo" alt="Vite logo" />
-        <span className="left-title">Takvim</span>
+        <span className="left-title">{calendarLabel}</span>
         
 
         <div className="tb-center">
           <div className="tb-center-left">
-            <button className="topbar-btn" onClick={goToToday}>Bugün</button>
+            <button className="topbar-btn" onClick={goToToday}>{todayLabel}</button>
             <ChevronLeft className="icon" size={20} onClick={prevDay}/>
             <ChevronRight className="icon" size={20} onClick={nextDay}/>
             <span className="tb-date">{selectedDay} {currentMonthName} {currentYear}</span> 
@@ -130,18 +160,18 @@ const toggleTheme = () => {
             className="topbar-btn" 
             onClick={() => setIsDropdownLangOpen(!isDropdownLangOpen)}
           >
-            {langOptions[language]} <ChevronDown className="chevrondown"/>
+            {langTranslator[currentLocale].displayName} <ChevronDown className="chevrondown"/>
           </button>
           
           {isDropdownLangOpen && (
             <div className="dropdown-menu">
-              {langOptions.map((option, index) => (
+              {locales.map((loc, index) => (
                 <div
                   key={index}
                   className={`dropdown-item ${language === index ? 'active' : ''}`}
                   onClick={() => handleViewLangChange(index)}
                 >
-                  {option}
+                  {langTranslator[loc].displayName}
                 </div>
               ))}
             </div>

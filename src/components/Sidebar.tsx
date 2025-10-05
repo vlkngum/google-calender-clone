@@ -2,6 +2,28 @@ import Calendar from "./ui/Calendar";
 import { Plus } from "lucide-react";
 import '../css/sidebar.css';
 import { usePreferences } from '../context/PreferencesContext';
+import { useState } from 'react';
+import CreateModal from './modals/CreateModal';
+ 
+const langTralator: Record<string, {
+  displayName: string;
+  labels: { create: string };
+}> = {
+  tr: {
+    displayName: 'Türkçe',
+    labels: { create: 'Oluştur' }
+  },
+  en: {
+    displayName: 'English',
+    labels: { create: 'Create' }
+  },
+  es: {
+    displayName: 'Español',
+    labels: { create: 'Crear' }
+  }
+};
+
+const locales = Object.keys(langTralator);
 
 interface SidebarProps {
     currentMonth: number;
@@ -13,13 +35,16 @@ interface SidebarProps {
 }
 
 export default function Sidebar ({ currentMonth, currentYear, selectedDay, setCurrentMonth, setCurrentYear, setSelectedDay }: SidebarProps){
-    const { isSidebarOpen } = usePreferences();
+    const { isSidebarOpen, language } = usePreferences();
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const currentLocale = locales[language] ?? locales[0];
+    const t = langTralator[currentLocale];
     
     return (
         <div className={`sidebar-container ${!isSidebarOpen ? 'hidden' : ''}`}>
-          <div className="sidebar-button-container">
+          <div className="sidebar-button-container" onClick={() => setIsModalOpen(true)} style={{ cursor: 'pointer' }}>
             <Plus className="icon"/> 
-            <a className="text">Oluştur</a>
+            <a className="text">{t.labels.create}</a>
           </div>
           <Calendar
             currentMonth={currentMonth}
@@ -29,6 +54,7 @@ export default function Sidebar ({ currentMonth, currentYear, selectedDay, setCu
             setCurrentYear={setCurrentYear}
             setSelectedDay={setSelectedDay}
           />
+          <CreateModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
         </div>
     );
 }
