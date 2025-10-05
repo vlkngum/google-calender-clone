@@ -45,3 +45,31 @@
 .sidebar-container.hidden {
     display: none;
   }
+
+/* Koyu Tema */
+
+body.dark-theme .sidebar-container {
+    background-color: #1e1e1e;
+    box-shadow: 1px 0 5px rgba(0, 0, 0, 0.5);
+}
+
+body.dark-theme .sidebar-button-container {
+    background-color: #2c2c2c;
+    color: #e0e0e0;
+    border: 1px solid #3a3a3a;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+}
+
+body.dark-theme .sidebar-button-container:hover {
+    background-color: #3a3a3a;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.7);
+    border-color: #4a4a4a;
+}
+
+body.dark-theme .icon {
+    color: #e0e0e0;
+}
+
+body.dark-theme .text {
+    color: #e0e0e0;
+}
