@@ -139,3 +139,46 @@
   border-bottom-left-radius: 8px;
   border-bottom-right-radius: 8px;
 }
+/* Koyu Tema */
+body.dark-theme .topbar {
+  background: #1e1e1e;
+}
+
+body.dark-theme .left-title {
+  color: #e0e0e0;
+}
+
+body.dark-theme .tb-date {
+  color: #e0e0e0;
+}
+
+body.dark-theme .topbar-btn {
+  border: 1px solid #555;
+  color: #e0e0e0;
+  background-color: transparent;
+}
+
+body.dark-theme .today-btn:hover {
+  background: #333;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
+}
+
+body.dark-theme .dropdown-container .dropdown-menu {
+  background: #2c2c2c;
+  border: 1px solid #444;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.8);
+}
+
+body.dark-theme .dropdown-item {
+  color: #e0e0e0;
+}
+
+body.dark-theme .dropdown-item:hover {
+  background: #3a3a3a;
+}
+
+body.dark-theme .dropdown-item.active {
+  background: #0b57d0;
+  color: white;
+  font-weight: 500;
+}
