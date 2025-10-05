@@ -1,11 +1,13 @@
 import { useState, useRef, useEffect } from 'react';
 import '../css/Topbar.css';
-import { Menu, ChevronLeft, ChevronRight, ChevronDown } from 'lucide-react';
+import { Menu, ChevronLeft, ChevronRight, ChevronDown, Moon, Sun } from 'lucide-react';
 import calendarLogo from '../assets/calendar_30_2x.png';
 import { usePreferences } from '../context/PreferencesContext';
  
 const monthNames = ['Ocak', 'Şubat', 'Mart', 'Nisan', 'Mayıs', 'Haziran', 'Temmuz', 'Ağustos', 'Eylül', 'Ekim', 'Kasım', 'Aralık'];
 const viewOptions = ['Gün', 'Hafta', 'Ay', 'Yıl', 'Planlama'];
+
+const langOptions = ['Türkçe', 'İngilizce'];
 
 interface TopbarProps {
   currentMonth: number;
@@ -13,16 +15,26 @@ interface TopbarProps {
   selectedDay: number;
   setCurrentMonth: (m: number) => void;
   setCurrentYear: (y: number) => void;
-  setSelectedDay: (d: number) => void;
-  calendarType: number;
-  setCalendarType: (v: number) => void;
+  setSelectedDay: (d: number) => void; 
 }
 
-export default function Topbar({ currentMonth, currentYear, selectedDay, setCurrentMonth, setCurrentYear, setSelectedDay, calendarType, setCalendarType }: TopbarProps) {
+export default function Topbar({ currentMonth, currentYear, selectedDay, setCurrentMonth, setCurrentYear, setSelectedDay  }: TopbarProps) {
   const { isSidebarOpen, setIsSidebarOpen } = usePreferences();
+
+  const { calendarType, setCalendarType,language,isDarkMode,setLanguage,setIsDarkMode } = usePreferences();
   
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false)
+
+  const [isDropdownLangOpen, setIsDropdownLangOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null); 
+ 
+const toggleTheme = () => {
+    setIsDarkMode(!isDarkMode);
+}
+
+  useEffect(() => {
+    document.body.classList.toggle('dark-theme', isDarkMode === true);
+  }, [isDarkMode]);
 
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
@@ -82,6 +94,11 @@ export default function Topbar({ currentMonth, currentYear, selectedDay, setCurr
     setIsDropdownOpen(false);
   }
 
+  const handleViewLangChange = (index: number) => {
+    setLanguage(index);
+    setIsDropdownLangOpen(false);
+  }
+
   return (
     <div className="topbar">
       <div className="left">
@@ -100,9 +117,37 @@ export default function Topbar({ currentMonth, currentYear, selectedDay, setCurr
         </div>
       </div>
 
-      
+       
 
       <div className="right">
+        {isDarkMode === false ? (
+          <Sun className="icon" onClick={toggleTheme} style={{ cursor: 'pointer' }} />
+        ) : (
+          <Moon className="icon" onClick={toggleTheme} style={{ cursor: 'pointer' }} />
+        )}
+        <div className="dropdown-container" ref={dropdownRef}>
+          <button 
+            className="topbar-btn" 
+            onClick={() => setIsDropdownLangOpen(!isDropdownLangOpen)}
+          >
+            {langOptions[language]} <ChevronDown className="chevrondown"/>
+          </button>
+          
+          {isDropdownLangOpen && (
+            <div className="dropdown-menu">
+              {langOptions.map((option, index) => (
+                <div
+                  key={index}
+                  className={`dropdown-item ${language === index ? 'active' : ''}`}
+                  onClick={() => handleViewLangChange(index)}
+                >
+                  {option}
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+
         <div className="dropdown-container" ref={dropdownRef}>
           <button 
             className="topbar-btn" 

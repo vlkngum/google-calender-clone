@@ -2,12 +2,12 @@ import { createContext, useContext, useState } from "react";
 import type { ReactNode} from 'react';
 
 interface PreferencesContextType {
-    language: string;
+    language: number;
     isDarkMode: boolean;
     calendarType: number;
     isSidebarOpen: boolean
 
-    setLanguage: (language: string) => void;
+    setLanguage: (language: number) => void;
     setIsDarkMode: (isDark: boolean) => void;
     setCalendarType: (type: number) => void;
     setIsSidebarOpen: (isOpen: boolean) => void;
@@ -16,7 +16,7 @@ interface PreferencesContextType {
 const PreferencesContext = createContext<PreferencesContextType | undefined>(undefined);
 
 export const PreferencesProvider = ({ children }: { children: ReactNode }) => {
-    const [language, setLanguage] = useState<string>("tr");
+    const [language, setLanguage] = useState<number>(0);
     const [isDarkMode, setIsDarkMode] = useState<boolean>(false);
     const [calendarType, setCalendarType] = useState<number>(0);
     const [isSidebarOpen, setIsSidebarOpen] = useState(true);

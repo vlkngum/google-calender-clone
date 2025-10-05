@@ -8,7 +8,7 @@ import { usePreferences } from './context/PreferencesContext'
 import { useState } from 'react'
 
 function AppContent() {
-  const { isSidebarOpen, calendarType, setCalendarType } = usePreferences();
+  const { isSidebarOpen } = usePreferences();
   const today = new Date();
   const [currentMonth, setCurrentMonth] = useState<number>(today.getMonth());
   const [currentYear, setCurrentYear] = useState<number>(today.getFullYear());
@@ -25,8 +25,6 @@ function AppContent() {
         setCurrentMonth={setCurrentMonth}
         setCurrentYear={setCurrentYear}
         setSelectedDay={setSelectedDay}
-        calendarType={calendarType}
-        setCalendarType={setCalendarType}
       />
       <div className="content">
       <aside className={`sidebar ${!isSidebarOpen ? 'hidden' : ''}`}>
