@@ -79,4 +79,72 @@
     cursor: pointer;
 }
 
- 
+ /* Koyu Tema */
+body.dark-theme .cal-all-container {
+    background: #1e1f21;
+    color: #e8eaed;
+  }
+  
+  body.dark-theme .cal-all-day-row {
+    border-bottom: 1px solid rgba(232, 234, 237, 0.15);
+  }
+  
+  body.dark-theme .cal-all-date-label {
+    color: #e8eaed;
+  }
+  
+  body.dark-theme .cal-all-day-number {
+    color: #e8eaed;
+  }
+  
+  body.dark-theme .cal-all-month-weekday {
+    color: #9aa0a6;
+  }
+  
+  body.dark-theme .cal-all-event {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 4px;
+    transition: background-color 0.15s ease;
+  }
+  
+  body.dark-theme .cal-all-event:hover {
+    background-color: rgba(232, 234, 237, 0.08);
+    border-radius: 10px;
+  }
+  
+  body.dark-theme .cal-all-dot {
+    background-color: #8ab4f8; 
+  }
+  
+  body.dark-theme .cal-all-time {
+    color: #9aa0a6;
+  }
+  
+  body.dark-theme .cal-all-event-title {
+    color: #e8eaed;
+  }
+  
+  body.dark-theme .cal-all-event-title:hover {
+    color: #8ab4f8;
+  }
+  
+  body.dark-theme .cal-all-container::-webkit-scrollbar {
+    width: 8px;
+  }
+  
+  body.dark-theme .cal-all-container::-webkit-scrollbar-thumb {
+    background-color: #5f6368;
+    border-radius: 4px;
+  }
+  
+  body.dark-theme .cal-all-container::-webkit-scrollbar-thumb:hover {
+    background-color: #8a8f94;
+  }
+  
+  body.dark-theme .cal-all-day-row:hover {
+    background-color: rgba(232, 234, 237, 0.05);
+    transition: background-color 0.15s ease;
+  }
+  

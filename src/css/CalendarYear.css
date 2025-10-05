@@ -136,3 +136,85 @@
   .year-day.other-month.has-event::after {
     background: #babdbf;
   }
+/* Koyu Tema */
+body.dark-theme .calendar-year-main {
+  background: #131314;
+  color: #e8eaed;
+}
+
+body.dark-theme .year-title {
+  color: #e8eaed;
+}
+
+body.dark-theme .year-month-card {
+  background: #131314;
+  border-radius: 8px;
+  padding: 12px;
+}
+
+body.dark-theme .year-month-name {
+  color: #e8eaed;
+}
+
+body.dark-theme .year-weekday {
+  color: #9aa0a6;
+}
+
+body.dark-theme .year-day {
+  color: #e8eaed;
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+body.dark-theme .year-day:hover {
+  background-color: rgba(232, 234, 237, 0.1);
+}
+
+body.dark-theme .year-day.other-month {
+  color: #5f6368;
+}
+
+body.dark-theme .year-day.today {
+  background: #8ab4f8;
+  color: #202124;
+  font-weight: 500;
+}
+
+body.dark-theme .year-day.today:hover {
+  background: #aecbfa;
+}
+
+body.dark-theme .year-day.selected {
+  background: rgba(138, 180, 248, 0.25);
+  color: #8ab4f8;
+  font-weight: 500;
+}
+
+body.dark-theme .year-day.selected.today {
+  background: #8ab4f8;
+  color: #202124;
+}
+
+body.dark-theme .year-day.has-event::after {
+  background: #8ab4f8;
+}
+
+body.dark-theme .year-day.today.has-event::after {
+  background: #202124;
+}
+
+body.dark-theme .year-day.other-month.has-event::after {
+  background: #5f6368;
+}
+
+body.dark-theme .calendar-year-main::-webkit-scrollbar {
+  width: 8px;
+}
+
+body.dark-theme .calendar-year-main::-webkit-scrollbar-thumb {
+  background-color: #5f6368;
+  border-radius: 4px;
+}
+
+body.dark-theme .calendar-year-main::-webkit-scrollbar-thumb:hover {
+  background-color: #8a8f94;
+}

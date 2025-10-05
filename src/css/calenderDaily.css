@@ -97,3 +97,53 @@
   opacity: 0.9;
   font-size: 12px;
 }
+
+/*Koyu Tema*/
+body.dark-theme .calendar-main {
+  background-color: #1e1e1e;
+  color: #e8eaed;
+  border-color: #3c4043;
+}
+
+body.dark-theme .calendar-left {
+  border-right: 1px solid #3c4043;
+  color: #9aa0a6;
+  background-color: #202124;
+}
+
+body.dark-theme .calendar-right {
+  background-color: #1e1e1e;
+}
+
+body.dark-theme .grid-container {
+  background:
+    repeating-linear-gradient(
+      to bottom,
+      #3c4043 0px,
+      #3c4043 1px,
+      transparent 1px,
+      transparent 60px
+    );
+}
+
+body.dark-theme .event {
+  background: #8ab4f8;
+  border-left-color: #8ab4f8;
+  color: #131314;
+}
+
+body.dark-theme .event:hover {
+  box-shadow: 0 2px 8px rgba(255, 255, 255, 0.15);
+}
+
+body.dark-theme .current-time-line {
+  background: #f28b82;
+}
+
+body.dark-theme .current-time-line::before {
+  background: #f28b82;
+}
+
+body.dark-theme .calendar-left p {
+  color: #c7ccc7;
+}

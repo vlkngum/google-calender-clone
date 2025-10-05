@@ -192,3 +192,98 @@
   border-radius: 50%;
   background: #ea4335;
 }
+
+/*Koyu Tema*/
+body.dark-theme .calendar-weekly-main {
+  background: #1e1f21;
+  color: #e8eaed;
+}
+
+body.dark-theme .weekly-time-column {
+  border-right: 1px solid #3c4043;
+  background-color: #1e1f21;
+}
+
+body.dark-theme .weekly-time-header {
+  color: #9aa0a6;
+}
+
+body.dark-theme .weekly-time-labels p {
+  color: #9aa0a6;
+}
+
+body.dark-theme .weekly-calendar-right {
+  background-color: #1e1f21;
+}
+
+body.dark-theme .weekly-days-header {
+  border-bottom: 1px solid #3c4043;
+  background-color: #1e1f21;
+}
+
+body.dark-theme .weekly-day-header {
+  border-right: 1px solid #3c4043;
+}
+
+body.dark-theme .day-name {
+  color: #9aa0a6;
+}
+
+body.dark-theme .day-date {
+  color: #e8eaed;
+}
+
+body.dark-theme .weekly-day-header.today .day-name {
+  color: #8ab4f8;
+}
+
+body.dark-theme .today-circle {
+  background: #8ab4f8;
+  color: #202124 !important;
+}
+
+body.dark-theme .weekly-grid-container {
+  background-color: #1e1f21;
+  background-image:
+    repeating-linear-gradient(
+      to bottom,
+      rgba(60, 64, 67, 0.25) 0px,
+      rgba(60, 64, 67, 0.25) 1px,
+      transparent 1px,
+      transparent 60px
+    );
+}
+
+
+body.dark-theme .weekly-day-column {
+  border-right: 1px solid #3c4043;
+}
+
+body.dark-theme .weekly-event {
+  background: #8ab4f8;
+  color: #202124;
+  border-radius: 6px;
+  transition: all 0.15s ease;
+}
+
+body.dark-theme .weekly-event:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(138, 180, 248, 0.25);
+}
+
+body.dark-theme .event-title {
+  color: #202124;
+}
+
+body.dark-theme .event-time {
+  color: #202124;
+  opacity: 0.85;
+}
+
+body.dark-theme .weekly-current-time-line {
+  background: #f28b82;
+}
+
+body.dark-theme .weekly-current-time-line::before {
+  background: #f28b82;
+}
