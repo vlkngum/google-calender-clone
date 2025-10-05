@@ -1,6 +1,6 @@
 import './style.css'
 import Sidebar from './components/Sidebar'
-import Topbar from './components/Topbar'
+import Topbar from './components/topbar'
 import CalenderView from './components/CalenderView'
 
 import { PreferencesProvider } from './context/PreferencesContext'
