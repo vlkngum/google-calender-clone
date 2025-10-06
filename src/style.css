@@ -30,8 +30,7 @@ body::-webkit-scrollbar {
 }
 
 .sidebar {
-  width: 300px;
-  background: #f7f8fa;
+  width: 300px; 
   overflow-y: hidden;
   overflow-x: hidden;
   transition: width 0.3s ease, opacity 0.3s ease; 

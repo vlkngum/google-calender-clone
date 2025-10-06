@@ -2,23 +2,66 @@ import { useEffect, useRef, useState } from 'react';
 import { X } from 'lucide-react';
 import { usePreferences } from '../../context/PreferencesContext';
 import '../../css/modal.css';
+import { useEvents } from '../../context/EventsContext';
+
+import DatePicker from '../ui/DatePicker';
  
 const langTralator: Record<string, {
   displayName: string;
-  labels: { title: string; description: string; save: string; cancel: string; language: string; date: string; time: string };
+  labels: { 
+    title: string; 
+    description: string; 
+    save: string; 
+    cancel: string; 
+    language: string; 
+    date: string; 
+    time: string;
+    startTime: string;
+    endTime: string;
+  };
 }> = {
   tr: {
     displayName: 'Türkçe',
-    labels: { title: 'Başlık ekle', description: 'Açıklama ekleyin', save: 'Kaydet', cancel: 'İptal', language: 'Dil', date: 'Tarih', time: 'Saat' }
+    labels: { 
+      title: 'Başlık ekle', 
+      description: 'Açıklama ekleyin', 
+      save: 'Kaydet', 
+      cancel: 'İptal', 
+      language: 'Dil', 
+      date: 'Tarih', 
+      time: 'Saat',
+      startTime: 'Başlangıç saati',
+      endTime: 'Bitiş saati'
+    }
   },
   en: {
     displayName: 'English',
-    labels: { title: 'Add title', description: 'Add description', save: 'Save', cancel: 'Cancel', language: 'Language', date: 'Date', time: 'Time' }
+    labels: { 
+      title: 'Add title', 
+      description: 'Add description', 
+      save: 'Save', 
+      cancel: 'Cancel', 
+      language: 'Language', 
+      date: 'Date', 
+      time: 'Time',
+      startTime: 'Start time',
+      endTime: 'End time'
+    }
   },
   es: {
     displayName: 'Español',
-    labels: { title: 'Añadir título', description: 'Añadir descripción', save: 'Guardar', cancel: 'Cancelar', language: 'Idioma', date: 'Fecha', time: 'Hora' }
-  }
+    labels: { 
+      title: 'Añadir título', 
+      description: 'Añadir descripción', 
+      save: 'Guardar', 
+      cancel: 'Cancelar', 
+      language: 'Idioma', 
+      date: 'Fecha', 
+      time: 'Hora',
+      startTime: 'Hora de inicio',
+      endTime: 'Hora de finalización'
+    }
+  }
 };
 
 const locales = Object.keys(langTralator);
@@ -30,12 +73,17 @@ interface CreateModalProps {
 
 export default function CreateModal({ isOpen, onClose }: CreateModalProps) {
   const { language } = usePreferences();
+  const { addEvent } = useEvents();
   const currentLocale = locales[language] ?? locales[0];
   const t = langTralator[currentLocale];
 
+  const [startTime, setStartTime] = useState('19:00');
+  const [endTime, setEndTime] = useState('20:00');
+
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
-  const [time, setTime] = useState('19:30');
+  const initialTime = `${String(new Date().getHours()).padStart(2, '0')}:00`;
+  const [time, setTime] = useState(initialTime);
 
   const pad2 = (n: number) => String(n).padStart(2, '0');
   const toDateInput = (y: number, m0: number, d: number) => `${y}-${pad2(m0 + 1)}-${pad2(d)}`;
@@ -51,6 +99,54 @@ export default function CreateModal({ isOpen, onClose }: CreateModalProps) {
     document.addEventListener('keydown', handleEsc);
     return () => document.removeEventListener('keydown', handleEsc);
   }, [onClose]);
+
+  useEffect(() => {
+    if (isOpen) {
+      const now = new Date();
+      setDate(toDateInput(now.getFullYear(), now.getMonth(), now.getDate()));
+      setTime(`${String(now.getHours()).padStart(2, '0')}:00`);
+    }
+  }, [isOpen]);
+
+  const canSave = title.trim().length > 0 && date && time;
+
+  const parseDateTime = (dateStr: string, timeStr: string) => {
+    const [yStr, mStr, dStr] = dateStr.split('-');
+    const [hhStr, mmStr = '0'] = timeStr.split(':');
+    return {
+      year: Number(yStr),
+      monthOneBased: Number(mStr),
+      day: Number(dStr),
+      hour: Number(hhStr),
+      minute: Number(mmStr),
+    };
+  };
+
+  const handleSave = () => {
+    if (!canSave) return;
+
+    const { year, monthOneBased, day, hour } = parseDateTime(date, time);
+
+    const endYear = year;
+    const endMonthOneBased = monthOneBased;
+    const endDay = day;
+    const endHour = Math.min(23, hour + 1);
+
+    addEvent({
+      id: String(Date.now()),
+      title: title.trim(),
+      year,
+      month: monthOneBased -1 ,
+      day,
+      hour,
+      endYear,
+      endMonth: endMonthOneBased - 1,
+      endDay,
+      endHour,
+    });
+
+    onClose();
+  };
 
   if (!isOpen) return null;
 
@@ -68,7 +164,24 @@ export default function CreateModal({ isOpen, onClose }: CreateModalProps) {
          
           <div className="form-row">
             <label className="label">{t.labels.date}</label>
-            <input className="input" type="date" value={date} onChange={(e) => setDate(e.target.value)} />
+            <DatePicker
+              value={date}
+              onChange={setDate}
+              placeholder={t.labels.date}
+              className="w-full"
+              language={currentLocale}
+            />
+          </div>
+
+          <div className="form-row" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
+            <div>
+              <label className="label">{t.labels.startTime}</label>
+              <input className="input" type="time" value={startTime} onChange={(e) => setStartTime(e.target.value)} />
+            </div>
+            <div>
+              <label className="label">{t.labels.endTime}</label>
+              <input className="input" type="time" value={endTime} onChange={(e) => setEndTime(e.target.value)} />
+            </div>
           </div>
           <div className="form-row">
             <label className="label">{t.labels.time}</label>
@@ -82,7 +195,13 @@ export default function CreateModal({ isOpen, onClose }: CreateModalProps) {
         </div>
         <div className="modal-footer">
           <button className="btn secondary" onClick={onClose}>{t.labels.cancel}</button>
-          <button className="btn primary" onClick={onClose}>{t.labels.save}</button>
+          <button
+            className="btn primary"
+            disabled={!canSave}
+            onClick={handleSave}
+          >
+            {t.labels.save}
+          </button>
         </div>
       </div>
     </div>

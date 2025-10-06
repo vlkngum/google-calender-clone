@@ -1,5 +1,5 @@
 import '../../css/CalenderDaily.css';
-import { rawEvents } from '../../data/events';
+import { useEvents } from '../../context/EventsContext';
 import { useEffect, useState } from 'react';
 
 interface CalenderDailyProps {
@@ -24,6 +24,7 @@ export default function CalenderDaily({
   selectedDay,  
 }: CalenderDailyProps) {
   
+  const { events: rawEvents } = useEvents();
   const rowsPerHour = 2; 
   const totalRows = 24 * rowsPerHour; 
   const hourHeightPx = 60;
