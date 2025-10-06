@@ -1,5 +1,5 @@
 import '../../css/calenderAll.css';
-import { rawEvents } from '../../data/events';
+import { useEvents } from '../../context/EventsContext';
 import { usePreferences } from '../../context/PreferencesContext';
 
 const langTralator: Record<string, { Month: string[]; Days: string[]; locale: string }> = {
@@ -31,6 +31,7 @@ interface CalendarAllProps {
 
 export default function CalenderAll({ currentMonth, currentYear, selectedDay }: CalendarAllProps) {
   const { language } = usePreferences();
+  const { events: rawEvents } = useEvents();
   const locales = Object.keys(langTralator);
   const currentLocaleKey = locales[language] ?? locales[0];
   const { Month, Days, locale } = langTralator[currentLocaleKey];

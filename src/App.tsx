@@ -4,6 +4,7 @@ import Topbar from './components/Topbar'
 import CalenderView from './components/CalenderView'
 
 import { PreferencesProvider } from './context/PreferencesContext'
+import { EventsProvider } from './context/EventsContext'
 import { usePreferences } from './context/PreferencesContext'
 import { useState } from 'react'
 
@@ -55,7 +56,9 @@ function AppContent() {
 export default function App() { 
   return (
     <PreferencesProvider>
-      <AppContent />
+      <EventsProvider>
+        <AppContent />
+      </EventsProvider>
     </PreferencesProvider>
   )
 }

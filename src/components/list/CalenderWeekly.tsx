@@ -1,5 +1,5 @@
 import '../../css/CalendarWeekly.css';
-import { rawEvents } from '../../data/events';
+import { useEvents } from '../../context/EventsContext';
 
 interface CalendarWeeklyProps {
   currentMonth: number;
@@ -42,6 +42,7 @@ export default function CalendarWeekly({
   currentYear, 
   selectedDay 
 }: CalendarWeeklyProps) {
+  const { events: rawEvents } = useEvents();
   const selectedDate = new Date(currentYear, currentMonth, selectedDay);
   const days = getWeekDays(selectedDate);
 

@@ -1,5 +1,5 @@
 import '../../css/CalendarYear.css';
-import { rawEvents } from '../../data/events';
+import { useEvents } from '../../context/EventsContext';
 import { usePreferences } from '../../context/PreferencesContext';
 
 interface CalendarYearProps {
@@ -77,6 +77,7 @@ export default function CalendarYear({
   setSelectedDay,
 }: CalendarYearProps) {
   const { language } = usePreferences();
+  const { events: rawEvents } = useEvents();
   const langTralator: Record<string, { months: string[] }> = {
     tr: { months: ['Ocak', 'Şubat', 'Mart', 'Nisan', 'Mayıs', 'Haziran', 'Temmuz', 'Ağustos', 'Eylül', 'Ekim', 'Kasım', 'Aralık'] },
     en: { months: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'] },
