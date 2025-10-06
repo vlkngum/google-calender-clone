@@ -100,7 +100,7 @@ export default function CalendarWeekly({
             const dayEvents = rawEvents.filter(
               (ev) =>
                 ev.year === day.date.getFullYear() &&
-                ev.month === day.date.getMonth() + 1 &&
+                ev.month === day.date.getMonth() &&
                 ev.day === day.date.getDate()
             );
 

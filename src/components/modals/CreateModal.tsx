@@ -82,8 +82,6 @@ export default function CreateModal({ isOpen, onClose }: CreateModalProps) {
 
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
-  const initialTime = `${String(new Date().getHours()).padStart(2, '0')}:00`;
-  const [time, setTime] = useState(initialTime);
 
   const pad2 = (n: number) => String(n).padStart(2, '0');
   const toDateInput = (y: number, m0: number, d: number) => `${y}-${pad2(m0 + 1)}-${pad2(d)}`;
@@ -104,11 +102,14 @@ export default function CreateModal({ isOpen, onClose }: CreateModalProps) {
     if (isOpen) {
       const now = new Date();
       setDate(toDateInput(now.getFullYear(), now.getMonth(), now.getDate()));
-      setTime(`${String(now.getHours()).padStart(2, '0')}:00`);
+      const hh = String(now.getHours()).padStart(2, '0');
+      setStartTime(`${hh}:00`);
+      const endH = Math.min(23, now.getHours() + 1);
+      setEndTime(`${String(endH).padStart(2, '0')}:00`);
     }
   }, [isOpen]);
 
-  const canSave = title.trim().length > 0 && date && time;
+  const canSave = title.trim().length > 0 && date && startTime && endTime;
 
   const parseDateTime = (dateStr: string, timeStr: string) => {
     const [yStr, mStr, dStr] = dateStr.split('-');
@@ -125,20 +126,22 @@ export default function CreateModal({ isOpen, onClose }: CreateModalProps) {
   const handleSave = () => {
     if (!canSave) return;
 
-    const { year, monthOneBased, day, hour } = parseDateTime(date, time);
+    const { year, monthOneBased, day, hour: startHour } = parseDateTime(date, startTime);
+    const { hour: parsedEndHour } = parseDateTime(date, endTime);
 
     const endYear = year;
     const endMonthOneBased = monthOneBased;
     const endDay = day;
-    const endHour = Math.min(23, hour + 1);
+    const saneEndHour = Math.max(startHour + 1, parsedEndHour);
+    const endHour = Math.min(23, saneEndHour);
 
     addEvent({
       id: String(Date.now()),
       title: title.trim(),
       year,
-      month: monthOneBased -1 ,
+      month: monthOneBased - 1,
       day,
-      hour,
+      hour: startHour,
       endYear,
       endMonth: endMonthOneBased - 1,
       endDay,
@@ -183,10 +186,7 @@ export default function CreateModal({ isOpen, onClose }: CreateModalProps) {
               <input className="input" type="time" value={endTime} onChange={(e) => setEndTime(e.target.value)} />
             </div>
           </div>
-          <div className="form-row">
-            <label className="label">{t.labels.time}</label>
-            <input className="input" type="time" value={time} onChange={(e) => setTime(e.target.value)} />
-          </div>
+          
 
           <div className="form-row">
             <textarea className="textarea" placeholder={t.labels.description} value={description} onChange={(e) => setDescription(e.target.value)} />

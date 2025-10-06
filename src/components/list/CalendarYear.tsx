@@ -100,7 +100,7 @@ export default function CalendarYear({
     return rawEvents.some(
       (ev) =>
         ev.year === year &&
-        ev.month === month + 1 &&
+        ev.month === month &&
         ev.day === date
     );
   };

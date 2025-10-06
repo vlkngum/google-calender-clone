@@ -48,15 +48,22 @@ const initialRawEvents: CalendarRawEvent[] = [
 export function EventsProvider({ children }: { children: ReactNode }) {
   const STORAGE_KEY = 'events';
 
+  const normalize = (list: CalendarRawEvent[]): CalendarRawEvent[] =>
+    list.map(e => ({
+      ...e,
+      month: e.month > 11 ? e.month - 1 : e.month,
+      endMonth: e.endMonth > 11 ? e.endMonth - 1 : e.endMonth,
+    }));
+
   const [events, setEvents] = useState<CalendarRawEvent[]>(() => {
     try {
       const raw = localStorage.getItem(STORAGE_KEY);
       if (raw) {
         const parsed = JSON.parse(raw) as CalendarRawEvent[];
-        if (Array.isArray(parsed)) return parsed;
+        if (Array.isArray(parsed)) return normalize(parsed);
       }
     } catch {}
-    return [...initialRawEvents];
+    return normalize([...initialRawEvents]);
   });
 
   const addEvent = useCallback((e: CalendarRawEvent) => {

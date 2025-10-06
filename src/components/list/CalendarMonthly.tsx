@@ -109,7 +109,7 @@ export default function CalendarMonthly({
     return rawEvents.filter(
       (ev) =>
         ev.year === year &&
-        ev.month === month + 1 &&
+        ev.month === month &&
         ev.day === date
     );
   };
