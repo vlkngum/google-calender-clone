@@ -66,41 +66,77 @@ export default function CalenderDaily({
     return labels;
   };
 
-  const getOverlappingEvents = (event: CalendarEvent, allEvents: CalendarEvent[]) => {
-    const overlaps = allEvents.filter(e => {
-      if (e.id === event.id) return false;
-      return e.start < event.end && e.end > event.start;
+  type LayoutInfo = { column: number; totalColumns: number };
+
+  const computeColumns = (dayEvents: CalendarEvent[]): Record<string, LayoutInfo> => {
+    const result: Record<string, LayoutInfo> = {};
+    const active: { id: string; end: Date; column: number }[] = [];
+    let clusterEventIds: string[] = [];
+    let clusterMaxCols = 0;
+
+    const finalizeCluster = () => {
+      if (clusterEventIds.length === 0) return;
+      for (const id of clusterEventIds) {
+        result[id] = { column: result[id].column, totalColumns: clusterMaxCols };
+      }
+      clusterEventIds = [];
+      clusterMaxCols = 0;
+    };
+
+    const sortedByTime = [...dayEvents].sort((a, b) => {
+      const t = a.start.getTime() - b.start.getTime();
+      if (t !== 0) return t;
+      return a.end.getTime() - b.end.getTime();
     });
-    return overlaps;
+
+    for (const e of sortedByTime) {
+      for (let i = active.length - 1; i >= 0; i--) {
+        if (active[i].end <= e.start) {
+          active.splice(i, 1);
+        }
+      }
+
+      if (active.length === 0) {
+        finalizeCluster();
+      }
+
+      const used = new Set(active.map(a => a.column));
+      let col = 0;
+      while (used.has(col)) col++;
+
+      active.push({ id: e.id, end: e.end, column: col });
+      result[e.id] = { column: col, totalColumns: active.length };
+      clusterEventIds.push(e.id);
+      clusterMaxCols = Math.max(clusterMaxCols, used.size + 1);
+    }
+
+    finalizeCluster();
+
+    return result;
   };
 
-  const calculatePosition = (event: CalendarEvent, allEvents: CalendarEvent[]) => {
-    const overlapping = getOverlappingEvents(event, allEvents);
-    const totalOverlapping = overlapping.length + 1;
-    const eventIndex = overlapping.filter(e => e.start <= event.start).length;
-    return { totalOverlapping, eventIndex };
-  };
+  const layoutMap = computeColumns(sorted);
 
   const eventBlocks = sorted.map(event => {
     const { start, end } = clampEventToDayBounds(event);
     const startMin = minutesSinceStartOfDay(start);
     const endMin = minutesSinceStartOfDay(end);
-    const startRow = Math.floor((startMin / 60) * rowsPerHour) + 1;
-    const durationRows = Math.max(1, Math.ceil(((endMin - startMin) / 60) * rowsPerHour));
+    const topPx = startMin * (hourHeightPx / 60);
+    const heightPx = Math.max(1, (endMin - startMin) * (hourHeightPx / 60) - 1);
 
-    const { totalOverlapping, eventIndex } = calculatePosition(event, sorted);
-    const widthPercent = 100 / totalOverlapping;
-    const leftPercent = widthPercent * eventIndex;
+    const layout = layoutMap[event.id];
+    const widthPercent = 100 / Math.max(1, layout.totalColumns);
+    const leftPercent = widthPercent * layout.column;
 
     return (
       <div 
         key={event.id} 
         className="event" 
         style={{ 
-          gridRow: `${startRow} / span ${durationRows}`,
-          width: `${widthPercent}%`,
-          marginLeft: `${leftPercent}%`,
-          marginRight: '0'
+          top: `${topPx}px`,
+          height: `${heightPx}px`,
+          left: `calc(${leftPercent}% + 4px)`,
+          width: `calc(${widthPercent}% - 8px)`
         }}
       >
         <div className="text">
