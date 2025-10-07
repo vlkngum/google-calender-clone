@@ -143,8 +143,23 @@
   color: #3c4043;
   line-height: 1.5;
 }
-
-/* Time Edit */
+ 
+body.dark-theme .event-detail-modal {
+  background: #1c1d1f;
+  color: #e5e7eb;
+}
+body.dark-theme .event-detail-header {
+  border-bottom-color: #374151;
+}
+body.dark-theme .icon-btn { color: #9ca3af; }
+body.dark-theme .icon-btn:hover { background: #374151; color: #e5e7eb; }
+body.dark-theme .event-detail-title { color: #e5e7eb; }
+body.dark-theme .event-title-input { border-bottom-color: #60a5fa; color: #e5e7eb; }
+body.dark-theme .info-label { color: #e5e7eb; }
+body.dark-theme .time-input-small { background: #111827; color: #e5e7eb; border-color: #374151; }
+body.dark-theme .edit-actions { border-top-color: #374151; }
+body.dark-theme .btn-cancel { color: #60a5fa; }
+ 
 .time-edit-row {
   display: flex;
   align-items: center;
@@ -215,8 +230,7 @@
 .btn-save:active {
   background: #1557b0;
 }
-
-/* Notification Section */
+ 
 .notification-section {
   padding-top: 20px;
   border-top: 1px solid #e8eaed;
@@ -233,8 +247,7 @@
 .notification-item svg {
   flex-shrink: 0;
 }
-
-/* Responsive */
+ 
 @media (max-width: 640px) {
   .event-detail-overlay {
     padding-top: 40px;

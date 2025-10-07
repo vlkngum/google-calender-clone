@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useEvents } from '../../context/EventsContext';
+import { usePreferences } from '../../context/PreferencesContext';
 import type { Event } from '../../context/EventsContext';
 import '../../css/EventsModal.css';
 import { ArrowLeft, Pencil, Trash2,  Calendar as CalendarIcon, Clock as ClockIcon } from 'lucide-react';
@@ -14,6 +15,15 @@ interface EventModalProps {
 
 export default function EventModal({ visible, date, onClose, eventId }: EventModalProps) {
   const { events, updateEvent, removeEvent } = useEvents();
+  const { language } = usePreferences();
+
+  const translators: Record<string, { locale: string; labels: { save: string; cancel: string; notFound: string } }> = {
+    tr: { locale: 'tr-TR', labels: { save: 'Kaydet', cancel: 'İptal', notFound: 'Etkinlik bulunamadı' } },
+    en: { locale: 'en-US', labels: { save: 'Save', cancel: 'Cancel', notFound: 'Event not found' } },
+  };
+  const localeKeys = Object.keys(translators);
+  const currentLocaleKey = localeKeys[language] ?? 'tr';
+  const i18n = translators[currentLocaleKey];
   
   const [event, setEvent] = useState<Event | null>(null);
   const [isEditing, setIsEditing] = useState(false);
@@ -78,7 +88,7 @@ export default function EventModal({ visible, date, onClose, eventId }: EventMod
   };
 
   const eventDate = event ? new Date(event.year, event.month, event.day) : (date ?? new Date());
-  const displayDate = eventDate.toLocaleDateString('tr-TR', {
+  const displayDate = eventDate.toLocaleDateString(i18n.locale as Intl.LocalesArgument, {
     day: 'numeric',
     month: 'long',
     year: 'numeric'
@@ -116,7 +126,7 @@ export default function EventModal({ visible, date, onClose, eventId }: EventMod
               autoFocus
             />
           ) : (
-            <h2 className="event-detail-title">{event ? event.title : 'Etkinlik bulunamadı'}</h2>
+            <h2 className="event-detail-title">{event ? event.title : i18n.labels.notFound}</h2>
           )}
 
           <div className="event-detail-info">
@@ -164,10 +174,10 @@ export default function EventModal({ visible, date, onClose, eventId }: EventMod
           {event && isEditing && (
             <div className="edit-actions">
               <button className="btn-cancel" onClick={() => setIsEditing(false)}>
-                İptal
+                {i18n.labels.cancel}
               </button>
               <button className="btn-save" onClick={handleSave}>
-                Kaydet
+                {i18n.labels.save}
               </button>
             </div>
           )}
