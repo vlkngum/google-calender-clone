@@ -1,5 +1,7 @@
 import '../../css/CalendarWeekly.css';
 import { useEvents } from '../../context/EventsContext';
+import { useState } from 'react';
+import EventModal from '../modal/EventModal';
 
 interface CalendarWeeklyProps {
   currentMonth: number;
@@ -43,6 +45,9 @@ export default function CalendarWeekly({
   selectedDay 
 }: CalendarWeeklyProps) {
   const { events: rawEvents } = useEvents();
+  const [modalOpen, setModalOpen] = useState(false);
+  const [modalDate, setModalDate] = useState<Date | null>(null);
+  const [modalEventId, setModalEventId] = useState<string | null>(null);
   const selectedDate = new Date(currentYear, currentMonth, selectedDay);
   const days = getWeekDays(selectedDate);
 
@@ -57,6 +62,7 @@ export default function CalendarWeekly({
 
   return (
     <div className="calendar-weekly-main">
+      <EventModal visible={modalOpen} date={modalDate} eventId={modalEventId} onClose={() => { setModalOpen(false); setModalEventId(null); }} />
       <div className="weekly-time-column">
         <div className="weekly-time-header"></div>
         <div className="weekly-time-labels">
@@ -114,6 +120,7 @@ export default function CalendarWeekly({
                     ? 'today-column'
                     : ''
                 }`}
+                onClick={() => { setModalDate(day.date); setModalEventId(null); setModalOpen(true); }}
               >
                 <div className="weekly-day-grid">
                   {dayEvents.map((ev) => {
@@ -124,6 +131,7 @@ export default function CalendarWeekly({
                       <div
                         key={ev.id}
                         className="weekly-event"
+                        onClick={(e) => { e.stopPropagation(); setModalDate(day.date); setModalEventId(ev.id); setModalOpen(true); }}
                         style={{ gridRow: `${startRow} / span ${duration}` }}
                       >
                         <div className="event-content">

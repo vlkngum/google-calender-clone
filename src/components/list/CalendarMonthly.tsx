@@ -1,6 +1,8 @@
 import '../../css/CalendarMonthly.css';
 import { useEvents } from '../../context/EventsContext';
 import { usePreferences } from '../../context/PreferencesContext';
+import { useState } from 'react';
+import EventModal from '../modal/EventModal';
 
 interface CalendarMonthlyProps {
   currentMonth: number;
@@ -88,6 +90,9 @@ export default function CalendarMonthly({
 }: CalendarMonthlyProps) {
   const { language } = usePreferences();
   const { events: rawEvents } = useEvents();
+  const [modalOpen, setModalOpen] = useState(false);
+  const [modalDate, setModalDate] = useState<Date | null>(null);
+  const [modalEventId, setModalEventId] = useState<string | null>(null);
   const langTralator: Record<string, { months: string[]; more: (n: number) => string }> = {
     tr: { months: ['Ocak','Şubat','Mart','Nisan','Mayıs','Haziran','Temmuz','Ağustos','Eylül','Ekim','Kasım','Aralık'], more: (n) => `+${n} tane daha` },
     en: { months: ['January','February','March','April','May','June','July','August','September','October','November','December'], more: (n) => `+${n} more` },
@@ -116,6 +121,7 @@ export default function CalendarMonthly({
 
   return (
     <div className="calendar-monthly-main">
+      <EventModal visible={modalOpen} date={modalDate} eventId={modalEventId} onClose={() => { setModalOpen(false); setModalEventId(null); }} />
 
       <div className="monthly-grid">
         {weeks.map((week, weekIndex) => (
@@ -139,7 +145,7 @@ export default function CalendarMonthly({
                   className={`monthly-day-cell ${
                     !day.isCurrentMonth ? 'other-month' : ''
                   } ${isToday ? 'today' : ''} ${isSelected ? 'selected' : ''}`}
-                  onClick={() => handleDayClick(day)}
+                  onClick={() => { handleDayClick(day); setModalDate(new Date(day.year, day.month, day.date)); setModalEventId(null); setModalOpen(true); }}
                 >
                   <div className="day-number-wrapper">
                     <span
@@ -156,6 +162,7 @@ export default function CalendarMonthly({
                       <div
                         key={event.id}
                         className="monthly-event"
+                        onClick={(e) => { e.stopPropagation(); setModalEventId(event.id); setModalOpen(true); }}
                       >
                         <span className="event-time">
                           {event.hour.toString().padStart(2, '0')}:00

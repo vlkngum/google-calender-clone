@@ -1,6 +1,7 @@
 .datepicker-container {
     position: relative;
     width: 100%;
+    z-index: 2000; 
   }
   
   .datepicker-input {
@@ -23,7 +24,7 @@
     color: #666;
   }
   
-  .datepicker-dropdown {
+.datepicker-dropdown {
     position: absolute;
     top: calc(100% + 8px);
     left: 0;
@@ -32,7 +33,7 @@
     border-radius: 8px;
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
     padding: 16px;
-    z-index: 9999;
+    z-index: 3000;
     min-width: 300px;
     width: 100%;
     max-width: 320px;

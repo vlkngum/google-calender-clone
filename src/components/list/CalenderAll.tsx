@@ -1,6 +1,8 @@
 import '../../css/calenderAll.css';
 import { useEvents } from '../../context/EventsContext';
 import { usePreferences } from '../../context/PreferencesContext';
+import { useState } from 'react';
+import EventModal from '../modal/EventModal';
 
 const langTralator: Record<string, { Month: string[]; Days: string[]; locale: string }> = {
   tr: {
@@ -32,6 +34,9 @@ interface CalendarAllProps {
 export default function CalenderAll({ currentMonth, currentYear, selectedDay }: CalendarAllProps) {
   const { language } = usePreferences();
   const { events: rawEvents } = useEvents();
+  const [modalOpen, setModalOpen] = useState(false);
+  const [modalDate, setModalDate] = useState<Date | null>(null);
+  const [modalEventId, setModalEventId] = useState<string | null>(null);
   const locales = Object.keys(langTralator);
   const currentLocaleKey = locales[language] ?? locales[0];
   const { Month, Days, locale } = langTralator[currentLocaleKey];
@@ -73,6 +78,7 @@ export default function CalenderAll({ currentMonth, currentYear, selectedDay }: 
 
   return (
     <div className='cal-all-container'>
+      <EventModal visible={modalOpen} date={modalDate} eventId={modalEventId} onClose={() => { setModalOpen(false); setModalEventId(null); }} />
       {sortedDayKeys.map(dayKey => {
         const dayEvents = groupedByDay[dayKey];
         const firstEvent = dayEvents[0];
@@ -87,9 +93,9 @@ export default function CalenderAll({ currentMonth, currentYear, selectedDay }: 
               </div>
             </div>
 
-            <div className="cal-all-events-list">
+            <div className="cal-all-events-list" onClick={() => { setModalDate(new Date(dayDate.getFullYear(), dayDate.getMonth(), dayDate.getDate())); setModalEventId(null); setModalOpen(true); }}>
               {dayEvents.map(event => (
-                <div key={event.id} className="cal-all-event">
+                <div key={event.id} className="cal-all-event" onClick={(e) => { e.stopPropagation(); setModalDate(new Date(dayDate.getFullYear(), dayDate.getMonth(), dayDate.getDate())); setModalEventId(event.id); setModalOpen(true); }}>
                   <div className='cal-all-dot'></div>
                   <div className='cal-all-time'>
                     {formatTime(event.start)} - {formatTime(event.end)}

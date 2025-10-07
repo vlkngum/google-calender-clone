@@ -1,0 +1,254 @@
+/* Event Detail Modal - Google Calendar Inspired */
+.event-detail-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  display: flex;
+  align-items: center; /* dikey ortalama */
+  justify-content: center;
+  z-index: 100; 
+  animation: overlayFade 0.2s ease;
+}
+
+@keyframes overlayFade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.event-detail-modal {
+  width: min(480px, 90vw);
+  background: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+  overflow: visible;  
+  animation: modalSlide 0.25s ease;
+}
+
+@keyframes modalSlide {
+  from {
+    transform: translateY(-20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* Header */
+.event-detail-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px;
+  border-bottom: 1px solid #e8eaed;
+}
+
+.header-actions {
+  display: flex;
+  gap: 4px;
+}
+
+.icon-btn {
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #5f6368;
+  transition: all 0.2s;
+}
+
+.icon-btn:hover {
+  background: #f1f3f4;
+  color: #202124;
+}
+
+.icon-btn:active {
+  background: #e8eaed;
+}
+
+/* Body */
+.event-detail-body {
+  padding: 24px;
+}
+
+.event-icon {
+  margin-bottom: 20px;
+}
+
+.color-badge {
+  width: 24px;
+  height: 24px;
+  border-radius: 6px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Title */
+.event-detail-title {
+  font-size: 22px;
+  font-weight: 400;
+  color: #202124;
+  margin: 0 0 24px 0;
+  line-height: 1.4;
+}
+
+.event-title-input {
+  width: 100%;
+  font-size: 22px;
+  font-weight: 400;
+  color: #202124;
+  border: none;
+  border-bottom: 2px solid #1a73e8;
+  padding: 4px 0;
+  margin-bottom: 24px;
+  outline: none;
+  background: transparent;
+}
+
+/* Info Rows */
+.event-detail-info {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.info-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  color: #5f6368;
+}
+
+.info-row svg {
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.info-text {
+  flex: 1;
+}
+
+.info-label {
+  font-size: 14px;
+  color: #3c4043;
+  line-height: 1.5;
+}
+
+/* Time Edit */
+.time-edit-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: 1;
+}
+
+.time-input-small {
+  border: 1px solid #dadce0;
+  border-radius: 4px;
+  padding: 6px 8px;
+  font-size: 14px;
+  outline: none;
+  width: 90px;
+  transition: all 0.2s;
+}
+
+.time-input-small:focus {
+  border-color: #1a73e8;
+  box-shadow: 0 0 0 2px rgba(26, 115, 232, 0.1);
+}
+
+.time-edit-row span {
+  color: #5f6368;
+}
+
+/* Edit Actions */
+.edit-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 20px;
+  padding-top: 20px;
+  border-top: 1px solid #e8eaed;
+}
+
+.btn-cancel,
+.btn-save {
+  border: none;
+  border-radius: 4px;
+  padding: 8px 24px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-cancel {
+  background: transparent;
+  color: #1a73e8;
+}
+
+.btn-cancel:hover {
+  background: #f1f3f4;
+}
+
+.btn-save {
+  background: #1a73e8;
+  color: #ffffff;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.btn-save:hover {
+  background: #1765cc;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
+}
+
+.btn-save:active {
+  background: #1557b0;
+}
+
+/* Notification Section */
+.notification-section {
+  padding-top: 20px;
+  border-top: 1px solid #e8eaed;
+}
+
+.notification-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: #5f6368;
+  font-size: 14px;
+}
+
+.notification-item svg {
+  flex-shrink: 0;
+}
+
+/* Responsive */
+@media (max-width: 640px) {
+  .event-detail-overlay {
+    padding-top: 40px;
+  }
+
+  .event-detail-modal {
+    width: 95vw;
+  }
+
+  .event-detail-body {
+    padding: 20px;
+  }
+
+  .event-detail-title {
+    font-size: 20px;
+  }
+}

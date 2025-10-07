@@ -63,8 +63,8 @@ const langTralator: Record<string, {
     }
   }
 };
-
-const locales = Object.keys(langTralator);
+ 
+const locales: string[] = Object.keys(langTralator);
 
 interface CreateModalProps {
   isOpen: boolean;
@@ -73,7 +73,7 @@ interface CreateModalProps {
 
 export default function CreateModal({ isOpen, onClose }: CreateModalProps) {
   const { language } = usePreferences();
-  const { addEvent } = useEvents();
+  const { addEvent } = useEvents(); 
   const currentLocale = locales[language] ?? locales[0];
   const t = langTralator[currentLocale];
 

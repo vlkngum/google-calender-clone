@@ -1,73 +1,60 @@
 import { createContext, useContext, useMemo, useState, useCallback, useEffect } from 'react';
 import type { ReactNode } from 'react';
 
-export interface CalendarRawEvent {
+export interface Event {
   id: string;
   title: string;
   year: number;
-  month: number;  
+  month: number;
   day: number;
   hour: number;
   endYear: number;
-  endMonth: number;  
+  endMonth: number;
   endDay: number;
   endHour: number;
 }
 
 interface EventsContextValue {
-  events: CalendarRawEvent[];
-  addEvent: (e: CalendarRawEvent) => void;
+  events: Event[];
+  addEvent: (e: Event) => void;
+  updateEvent: (id: string, updates: Partial<Event>) => void;
+  removeEvent: (id: string) => void;
 }
 
 const EventsContext = createContext<EventsContextValue | undefined>(undefined);
 
-const initialRawEvents: CalendarRawEvent[] = [
-  { id: '2', title: 'Toplantı 1', year: 2025, month: 9, day: 2, hour: 0,  endYear: 2025, endMonth: 9, endDay: 2, endHour: 1 },
-  { id: '3', title: 'Toplantı 2', year: 2025, month: 9, day: 2, hour: 2, endYear: 2025, endMonth: 9, endDay: 2, endHour: 4 },
-  { id: '4', title: 'Toplantı 3', year: 2025, month: 9, day: 2, hour: 5, endYear: 2025, endMonth: 9, endDay: 2, endHour: 6 },
-  { id: '5', title: 'Toplantı 4', year: 2025, month: 9, day: 2, hour: 7,  endYear: 2025, endMonth: 9, endDay: 2, endHour: 9 },
-  { id: '6', title: 'Toplantı 5', year: 2025, month: 9, day: 2, hour: 10, endYear: 2025, endMonth: 9, endDay: 2, endHour: 11 },
-  { id: '7', title: 'Toplantı 6', year: 2025, month: 9, day: 2, hour: 13, endYear: 2025, endMonth: 9, endDay: 2, endHour: 14 },
-  { id: '8', title: 'Toplantı 7', year: 2025, month: 9, day: 2, hour: 15, endYear: 2025, endMonth: 9, endDay: 2, endHour: 16 },
-  { id: '9', title: 'Toplantı 8', year: 2025, month: 9, day: 2, hour: 22, endYear: 2025, endMonth: 9, endDay: 2, endHour: 23 },
-  { id: '10', title: 'Buluşma', year: 2025, month: 9, day: 3, hour: 6, endYear: 2025, endMonth: 9, endDay: 3, endHour: 7 },
-  { id: '11', title: 'Yemek', year: 2025, month: 9, day: 3, hour: 14, endYear: 2025, endMonth: 9, endDay: 3, endHour: 15 },
-  { id: '12', title: 'Ekip Toplantısı', year: 2025, month: 9, day: 3, hour: 19, endYear: 2025, endMonth: 9, endDay: 3, endHour: 20 },
-  { id: '13', title: 'Ekip Toplantısı', year: 2025, month: 10, day: 2, hour: 19, endYear: 2025, endMonth: 10, endDay: 2, endHour: 20 },
-  { id: '14', title: 'Toplantı 1', year: 2025, month: 9, day: 4, hour: 2,  endYear: 2025, endMonth: 9, endDay: 4, endHour: 4 },
-  { id: '15', title: 'Toplantı 2', year: 2025, month: 9, day: 4, hour: 5,  endYear: 2025, endMonth: 9, endDay: 4, endHour: 6 },
-  { id: '16', title: 'Toplantı 3', year: 2025, month: 9, day: 4, hour: 7,  endYear: 2025, endMonth: 9, endDay: 4, endHour: 9 },
-  { id: '17', title: 'Toplantı 4', year: 2025, month: 9, day: 4, hour: 10, endYear: 2025, endMonth: 9, endDay: 4, endHour: 11 }, 
-  { id: '18', title: 'Toplantı 1', year: 2025, month: 9, day: 5, hour: 2,  endYear: 2025, endMonth: 9, endDay: 5, endHour: 4 }, 
-  { id: '19', title: 'Toplantı 1', year: 2025, month: 9, day: 6, hour: 2,  endYear: 2025, endMonth: 9, endDay: 6, endHour: 4 },
-  { id: '20', title: 'Toplantı 1', year: 2025, month: 9, day: 7, hour: 2,  endYear: 2025, endMonth: 9, endDay: 7, endHour: 4 },
-  { id: '21', title: 'Toplantı 1', year: 2025, month: 10, day: 3, hour: 2,  endYear: 2025, endMonth: 10, endDay: 3, endHour: 4 },
-  { id: '22', title: 'Toplantı 1', year: 2025, month: 10, day: 12, hour: 2,  endYear: 2025, endMonth: 10, endDay: 12, endHour: 4 },
-];
 
 export function EventsProvider({ children }: { children: ReactNode }) {
   const STORAGE_KEY = 'events';
 
-  const normalize = (list: CalendarRawEvent[]): CalendarRawEvent[] =>
+  const normalize = (list: Event[]): Event[] =>
     list.map(e => ({
       ...e,
       month: e.month > 11 ? e.month - 1 : e.month,
       endMonth: e.endMonth > 11 ? e.endMonth - 1 : e.endMonth,
     }));
 
-  const [events, setEvents] = useState<CalendarRawEvent[]>(() => {
+  const [events, setEvents] = useState<Event[]>(() => {
     try {
       const raw = localStorage.getItem(STORAGE_KEY);
       if (raw) {
-        const parsed = JSON.parse(raw) as CalendarRawEvent[];
+        const parsed = JSON.parse(raw) as Event[];
         if (Array.isArray(parsed)) return normalize(parsed);
       }
     } catch {}
-    return normalize([...initialRawEvents]);
+    return [];
   });
 
-  const addEvent = useCallback((e: CalendarRawEvent) => {
+  const addEvent = useCallback((e: Event) => {
     setEvents(prev => [...prev, e]);
+  }, []);
+
+  const updateEvent = useCallback((id: string, updates: Partial<Event>) => {
+    setEvents(prev => prev.map(ev => (ev.id === id ? { ...ev, ...updates } : ev)));
+  }, []);
+
+  const removeEvent = useCallback((id: string) => {
+    setEvents(prev => prev.filter(ev => ev.id !== id));
   }, []);
 
   useEffect(() => {
@@ -76,7 +63,7 @@ export function EventsProvider({ children }: { children: ReactNode }) {
     } catch {}
   }, [events]);
 
-  const value = useMemo(() => ({ events, addEvent }), [events]);
+  const value = useMemo(() => ({ events, addEvent, updateEvent, removeEvent }), [events]);
   return <EventsContext.Provider value={value}>{children}</EventsContext.Provider>;
 }
 

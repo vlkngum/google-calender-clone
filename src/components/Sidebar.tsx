@@ -23,7 +23,7 @@ const langTralator: Record<string, {
   }
 };
 
-const locales = Object.keys(langTralator);
+const locales: string[] = Object.keys(langTralator);
 
 interface SidebarProps {
     currentMonth: number;

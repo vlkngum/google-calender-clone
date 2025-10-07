@@ -1,6 +1,7 @@
 import '../../css/CalenderDaily.css';
 import { useEvents } from '../../context/EventsContext';
 import { useEffect, useState } from 'react';
+import EventModal from '../modal/EventModal';
 
 interface CalenderDailyProps {
   currentMonth: number;
@@ -25,6 +26,9 @@ export default function CalenderDaily({
 }: CalenderDailyProps) {
   
   const { events: rawEvents } = useEvents();
+  const [modalOpen, setModalOpen] = useState(false);
+  const [modalDate, setModalDate] = useState<Date | null>(null);
+  const [modalEventId, setModalEventId] = useState<string | null>(null);
   const rowsPerHour = 2; 
   const totalRows = 24 * rowsPerHour; 
   const hourHeightPx = 60;
@@ -138,6 +142,7 @@ export default function CalenderDaily({
           left: `calc(${leftPercent}% + 4px)`,
           width: `calc(${widthPercent}% - 8px)`
         }}
+        onClick={(e) => { e.stopPropagation(); setModalDate(new Date(currentYear, currentMonth, selectedDay)); setModalEventId(event.id); setModalOpen(true); }}
       >
         <div className="text">
           <p>{event.title}</p>
@@ -164,6 +169,7 @@ useEffect(() => {
 
   return (
     <div className="calendar-main">
+      <EventModal visible={modalOpen} date={modalDate} eventId={modalEventId} onClose={() => { setModalOpen(false); setModalEventId(null); }} />
       <div className="calendar-left">
         {renderLabels()}
       </div>
@@ -174,6 +180,7 @@ useEffect(() => {
           style={{ 
             gridTemplateRows: `repeat(${totalRows}, ${hourHeightPx / rowsPerHour}px)`
           }}
+          onClick={() => { setModalDate(new Date(currentYear, currentMonth, selectedDay)); setModalEventId(null); setModalOpen(true); }}
         >
           <div className="current-time-line" style={{ top: `${currentTop}px` }}></div>
           {eventBlocks}
