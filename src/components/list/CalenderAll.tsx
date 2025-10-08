@@ -2,7 +2,7 @@ import '../../css/calenderAll.css';
 import { useEvents } from '../../context/EventsContext';
 import { usePreferences } from '../../context/PreferencesContext';
 import { useState } from 'react';
-import EventModal from '../modal/EventModal';
+import EventModal from '../modals/EventModal';
 
 const langTralator: Record<string, { Month: string[]; Days: string[]; locale: string }> = {
   tr: {

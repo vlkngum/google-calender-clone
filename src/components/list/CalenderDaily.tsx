@@ -1,7 +1,7 @@
 import '../../css/CalenderDaily.css';
 import { useEvents } from '../../context/EventsContext';
 import { useEffect, useState } from 'react';
-import EventModal from '../modal/EventModal';
+import EventModal from '../modals/EventModal';
 
 interface CalenderDailyProps {
   currentMonth: number;

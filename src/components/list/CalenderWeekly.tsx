@@ -1,7 +1,7 @@
 import '../../css/CalendarWeekly.css';
 import { useEvents } from '../../context/EventsContext';
 import { useState } from 'react';
-import EventModal from '../modal/EventModal';
+import EventModal from '../modals/EventModal';
 
 interface CalendarWeeklyProps {
   currentMonth: number;
